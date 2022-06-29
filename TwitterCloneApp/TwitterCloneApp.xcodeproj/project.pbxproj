@@ -20,6 +20,7 @@
 		99306AF1286C4FBE00D7ACA4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AF0286C4FBE00D7ACA4 /* Extensions.swift */; };
 		99306AF9286C5FB100D7ACA4 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AF8286C5FB100D7ACA4 /* LoginController.swift */; };
 		99306AFB286C5FC300D7ACA4 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AFA286C5FC300D7ACA4 /* RegistrationController.swift */; };
+		99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AFC286C6B3900D7ACA4 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		99306AF0286C4FBE00D7ACA4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		99306AF8286C5FB100D7ACA4 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		99306AFA286C5FC300D7ACA4 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		99306AFC286C6B3900D7ACA4 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +77,7 @@
 				99306AE0286C396700D7ACA4 /* ViewModel */,
 				99306ADF286C396600D7ACA4 /* Controllers */,
 				99306ADE286C396500D7ACA4 /* API */,
-				99306AE3286C39AC00D7ACA4 /* Utilities */,
+				99306AE3286C39AC00D7ACA4 /* Utilis */,
 				99306AC6286C37EB00D7ACA4 /* AppDelegate.swift */,
 				99306AC8286C37EB00D7ACA4 /* SceneDelegate.swift */,
 				99306ACC286C37EB00D7ACA4 /* Main.storyboard */,
@@ -127,12 +129,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		99306AE3286C39AC00D7ACA4 /* Utilities */ = {
+		99306AE3286C39AC00D7ACA4 /* Utilis */ = {
 			isa = PBXGroup;
 			children = (
+				99306AFC286C6B3900D7ACA4 /* Utilities.swift */,
 				99306AF0286C4FBE00D7ACA4 /* Extensions.swift */,
 			);
-			path = Utilities;
+			path = Utilis;
 			sourceTree = "<group>";
 		};
 		99306AF7286C5F9500D7ACA4 /* Authentication */ = {
@@ -217,6 +220,7 @@
 			files = (
 				99306AEF286C3EE800D7ACA4 /* ConversationController.swift in Sources */,
 				99306AC7286C37EB00D7ACA4 /* AppDelegate.swift in Sources */,
+				99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */,
 				99306AC9286C37EB00D7ACA4 /* SceneDelegate.swift in Sources */,
 				99306AF1286C4FBE00D7ACA4 /* Extensions.swift in Sources */,
 				99306AF9286C5FB100D7ACA4 /* LoginController.swift in Sources */,
