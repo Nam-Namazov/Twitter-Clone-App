@@ -82,7 +82,8 @@ final class LoginController: UIViewController {
     }
     
     @objc private func handleShowSignUp() {
-        print("sign up tapped")
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     // MARK: - Helpers
