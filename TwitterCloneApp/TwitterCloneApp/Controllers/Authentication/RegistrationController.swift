@@ -98,19 +98,19 @@ final class RegistrationController: UIViewController {
     private func alreadyHaveAccountButtonAction() {
         alreadyHaveAccountButton.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
     }
-    
+
     private func plusPhotoButtonAction() {
         plusPhotoButton.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
     }
-    
+
     private func registrationButtonAction() {
         registrationButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
     }
-    
+
     @objc private func handleShowLogin() {
         navigationController?.popViewController(animated: true)
     }
-    
+
     @objc private func handleAddProfilePhoto() {
         present(imagePicker, animated: true, completion: nil)
     }
@@ -135,9 +135,7 @@ final class RegistrationController: UIViewController {
             guard let uid = result?.user.uid else { return }
             let values = ["email": email, "username": username, "fullname": fullname] // write info to database
 
-            let ref = Database.database().reference().child("users").child(uid) // accesses info from gogleservice-info.plist, creating url string and it put's data to the right place, we create user child from main database, and create another child of users with uid of user
-
-            ref.updateChildValues(values) { (error, ref) in         // we are updating uid child info by this                                                           completion
+            REF_USERS.child(uid).updateChildValues(values) { (error, ref) in
                 print("DEBUG: Successfully updated user information")
             }
         }
