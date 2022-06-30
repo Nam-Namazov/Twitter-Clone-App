@@ -10,9 +10,10 @@ import Firebase
 
 final class RegistrationController: UIViewController {
     // MARK: - Properties
-    
+
     private let imagePicker = UIImagePickerController()
-    
+    private var profileImage: UIImage?
+
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
@@ -113,17 +114,32 @@ final class RegistrationController: UIViewController {
     @objc private func handleAddProfilePhoto() {
         present(imagePicker, animated: true, completion: nil)
     }
-    
+
     @objc private func handleRegistration() {
+        guard let profileImage = profileImage else {
+            print("DEBUG: Please Select a profile image...")
+            return
+        }
+
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
-        
+        guard let fullname = fullNameTextField.text else { return }
+        guard let username = userNameTextField.text else { return }
+
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if let error = error {
                 print("DEBUG: error is \(error.localizedDescription)")
                 return
             }
-            print("DEBUG: User successfully registered")
+
+            guard let uid = result?.user.uid else { return }
+            let values = ["email": email, "username": username, "fullname": fullname] // write info to database
+
+            let ref = Database.database().reference().child("users").child(uid) // accesses info from gogleservice-info.plist, creating url string and it put's data to the right place, we create user child from main database, and create another child of users with uid of user
+
+            ref.updateChildValues(values) { (error, ref) in         // we are updating uid child info by this                                                           completion
+                print("DEBUG: Successfully updated user information")
+            }
         }
     }
 
@@ -171,6 +187,8 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileImage = info[.editedImage] as? UIImage else { return }
+        self.profileImage = profileImage
+
         plusPhotoButton.layer.cornerRadius = 128 / 2
         plusPhotoButton.layer.masksToBounds = true
         plusPhotoButton.layer.borderColor = UIColor.white.cgColor
