@@ -116,7 +116,7 @@ final class RegistrationController: UIViewController {
     }
 
     @objc private func handleRegistration() {
-        guard let profileImage = profileImage else {
+        guard let profileImage = profileImage else { 
             print("DEBUG: Please Select a profile image...")
             return
         }
@@ -126,18 +126,15 @@ final class RegistrationController: UIViewController {
         guard let fullname = fullNameTextField.text else { return }
         guard let username = userNameTextField.text else { return }
 
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if let error = error {
-                print("DEBUG: error is \(error.localizedDescription)")
-                return
-            }
+        let credentials = AuthCredentials(email: email,
+                                          password: password,
+                                          fullname: fullname,
+                                          username: username,
+                                          profileImage: profileImage)
 
-            guard let uid = result?.user.uid else { return }
-            let values = ["email": email, "username": username, "fullname": fullname] // write info to database
-
-            REF_USERS.child(uid).updateChildValues(values) { (error, ref) in
-                print("DEBUG: Successfully updated user information")
-            }
+        AuthService.shared.registerUser(credentials: credentials) { (error, ref) in
+            print("DEBUG: Sign Up Successful")
+            print("DEBUG: Handle update user interface here")
         }
     }
 
