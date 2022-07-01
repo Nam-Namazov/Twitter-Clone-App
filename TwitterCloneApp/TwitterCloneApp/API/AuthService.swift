@@ -19,6 +19,20 @@ struct AuthCredentials {
 
 struct AuthService {
     static let shared = AuthService()
+    
+    func logUserIn(withEmail email: String,
+                   password: String,
+                   completion: @escaping(Error?, AuthDataResult?) -> Void) {
+        Auth.auth().signIn(withEmail: email,
+                           password: password) { result, error in
+            if let error = error {
+                completion(error, nil)
+                print("DEBUG: Error logging is \(error.localizedDescription)")
+                return
+            }
+            completion(nil, result)
+        }
+    }
 
     func registerUser(credentials: AuthCredentials, completion: @escaping(Error?, DatabaseReference?) -> Void) {
         let email = credentials.email
@@ -48,7 +62,6 @@ struct AuthService {
                                   "profileImageUrl": profileImageUrl]
 
                     REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: completion)
-                    
                 }
             }
         }
