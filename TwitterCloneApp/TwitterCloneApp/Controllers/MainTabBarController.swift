@@ -26,13 +26,13 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         style()
         actionButtonSetUp()
-        authenticateUserAndConfigureUI()
 //        logUserOut()
+        authenticateUserAndConfigureUI()
     }
     
     // MARK: - API
 
-    private func authenticateUserAndConfigureUI() {
+     func authenticateUserAndConfigureUI() {
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let nav = UINavigationController(rootViewController: LoginController())

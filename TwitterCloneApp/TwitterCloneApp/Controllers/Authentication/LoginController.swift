@@ -78,7 +78,29 @@ final class LoginController: UIViewController {
     }
 
     @objc private func handleLogin() {
-        print("login tapped")
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else { return }
+            
+        AuthService.shared.logUserIn(withEmail: email, password: password) { (error, result) in
+            
+            let scenes = UIApplication.shared.connectedScenes
+
+            guard let windowScene = scenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let tab = window.rootViewController as? MainTabBarController else {
+            return
+            }
+
+            tab.authenticateUserAndConfigureUI()
+
+            self.dismiss(animated: true, completion: nil)
+
+            if let error = error {
+                print("DEBUG: Error logging in \(error.localizedDescription)")
+                return
+            }
+            
+        }
     }
     
     @objc private func handleShowSignUp() {

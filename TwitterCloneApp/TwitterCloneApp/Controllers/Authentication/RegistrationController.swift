@@ -121,10 +121,10 @@ final class RegistrationController: UIViewController {
             return
         }
 
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-        guard let fullname = fullNameTextField.text else { return }
-        guard let username = userNameTextField.text else { return }
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text,
+              let fullname = fullNameTextField.text,
+              let username = userNameTextField.text else { return }
 
         let credentials = AuthCredentials(email: email,
                                           password: password,
@@ -132,9 +132,18 @@ final class RegistrationController: UIViewController {
                                           username: username,
                                           profileImage: profileImage)
 
-        AuthService.shared.registerUser(credentials: credentials) { (error, ref) in
-            print("DEBUG: Sign Up Successful")
-            print("DEBUG: Handle update user interface here")
+        AuthService.shared.registerUser(credentials: credentials) { error, ref in
+            let scenes = UIApplication.shared.connectedScenes
+
+            guard let windowScene = scenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let tab = window.rootViewController as? MainTabBarController else {
+            return
+
+            }
+            tab.authenticateUserAndConfigureUI()
+
+            self.dismiss(animated: true, completion: nil)
         }
     }
 
