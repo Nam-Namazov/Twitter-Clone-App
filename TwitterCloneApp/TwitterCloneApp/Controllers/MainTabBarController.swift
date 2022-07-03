@@ -31,8 +31,12 @@ final class MainTabBarController: UITabBarController {
     }
     
     // MARK: - API
-
-     func authenticateUserAndConfigureUI() {
+    
+    func fetchUser() {
+        UserService.shared.fetchUser() 
+    }
+    
+    func authenticateUserAndConfigureUI() {
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let nav = UINavigationController(rootViewController: LoginController())
@@ -42,6 +46,7 @@ final class MainTabBarController: UITabBarController {
         } else {
             configureVC()
             configureUI()
+            fetchUser()
         }
     }
     

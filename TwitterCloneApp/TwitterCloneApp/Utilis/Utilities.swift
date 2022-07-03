@@ -45,6 +45,7 @@ class Utilities {
         let textField = UITextField()
         textField.placeholder = placeholder
         textField.textColor = .white
+        textField.autocorrectionType = .no
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return textField
