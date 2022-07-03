@@ -27,8 +27,11 @@ final class FeedController: UIViewController {
 
     private func configureUI() {
         let imageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
-        imageView.contentMode = .scaleAspectFit
-        navigationItem.titleView = imageView
+
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+            imageView.frame = titleView.bounds
+            titleView.addSubview(imageView)
+        self.navigationItem.titleView = titleView
     }
     
     private func configureLeftBarButton() {

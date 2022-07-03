@@ -129,5 +129,6 @@ final class MainTabBarController: UITabBarController {
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().barStyle = .default
         UINavigationBar.appearance().tintColor = .black
+        UINavigationBar.appearance().scrollEdgeAppearance = UINavigationBarAppearance()
     }
 }
