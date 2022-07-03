@@ -16,32 +16,37 @@ final class RegistrationController: UIViewController {
 
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "plus_photo"), for: .normal)
+        button.setImage(UIImage(named: "plus_photo"),
+                        for: .normal)
         button.tintColor = .white
         return button
     }()
     
     private lazy var emailContainerView: UIView = {
         let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
-        let view = Utilities().inputContainerView(withImage: image, textField: emailTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: emailTextField)
         return view
     }()
 
     private lazy var passwordContainerView: UIView = {
         let image = #imageLiteral(resourceName: "lock")
-        let view = Utilities().inputContainerView(withImage: image, textField: passwordTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: passwordTextField)
         return view
     }()
     
     private lazy var fullnameContainerView: UIView = {
         let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
-        let view = Utilities().inputContainerView(withImage: image, textField: fullNameTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: fullNameTextField)
         return view
     }()
 
     private lazy var usernameContainerView: UIView = {
         let image = #imageLiteral(resourceName: "lock")
-        let view = Utilities().inputContainerView(withImage: image, textField: userNameTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: userNameTextField)
         return view
     }()
 
@@ -67,7 +72,8 @@ final class RegistrationController: UIViewController {
     }()
 
     private let alreadyHaveAccountButton: UIButton = {
-        let button = Utilities().attributedButton("Already have an account?", " Log In")
+        let button = Utilities().attributedButton("Already have an account?",
+                                                  " Log In")
         return button
     }()
 
@@ -81,7 +87,6 @@ final class RegistrationController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         return button
     }()
-    
 
     // MARK: - Lifecycle
 
@@ -95,16 +100,23 @@ final class RegistrationController: UIViewController {
     }
 
     // MARK: - Selectors
+
     private func alreadyHaveAccountButtonAction() {
-        alreadyHaveAccountButton.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
+        alreadyHaveAccountButton.addTarget(self,
+                                           action: #selector(handleShowLogin),
+                                           for: .touchUpInside)
     }
 
     private func plusPhotoButtonAction() {
-        plusPhotoButton.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
+        plusPhotoButton.addTarget(self,
+                                  action: #selector(handleAddProfilePhoto),
+                                  for: .touchUpInside)
     }
 
     private func registrationButtonAction() {
-        registrationButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+        registrationButton.addTarget(self,
+                                     action: #selector(handleRegistration),
+                                     for: .touchUpInside)
     }
 
     @objc private func handleShowLogin() {
@@ -139,8 +151,8 @@ final class RegistrationController: UIViewController {
                   let window = windowScene.windows.first,
                   let tab = window.rootViewController as? MainTabBarController else {
             return
-
             }
+
             tab.authenticateUserAndConfigureUI()
 
             self.dismiss(animated: true, completion: nil)
@@ -158,8 +170,10 @@ final class RegistrationController: UIViewController {
         imagePicker.allowsEditing = true
         
         view.addSubview(plusPhotoButton)
-        plusPhotoButton.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
-        plusPhotoButton.setDimensions(width: 128, height: 128)
+        plusPhotoButton.centerX(inView: view,
+                                topAnchor: view.safeAreaLayoutGuide.topAnchor)
+        plusPhotoButton.setDimensions(width: 128,
+                                      height: 128)
         
         let stack = UIStackView(arrangedSubviews: [emailContainerView,
                                                    passwordContainerView,
@@ -177,6 +191,7 @@ final class RegistrationController: UIViewController {
                      paddingTop: 32,
                      paddingLeft: 32,
                      paddingRight: 32)
+
         view.addSubview(alreadyHaveAccountButton)
         alreadyHaveAccountButton.anchor(left: view.leftAnchor,
                                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -187,9 +202,11 @@ final class RegistrationController: UIViewController {
 }
 // MARK: - UIImagePickerControllerDelegate
 
-extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension RegistrationController: UIImagePickerControllerDelegate,
+                                  UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileImage = info[.editedImage] as? UIImage else { return }
         self.profileImage = profileImage
 

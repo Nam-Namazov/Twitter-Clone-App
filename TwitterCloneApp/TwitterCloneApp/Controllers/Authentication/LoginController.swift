@@ -20,13 +20,15 @@ final class LoginController: UIViewController {
 
     private lazy var emailContainerView: UIView = {
         let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
-        let view = Utilities().inputContainerView(withImage: image, textField: emailTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: emailTextField)
         return view
     }()
 
     private lazy var passwordContainerView: UIView = {
         let image = #imageLiteral(resourceName: "lock")
-        let view = Utilities().inputContainerView(withImage: image, textField: passwordTextField)
+        let view = Utilities().inputContainerView(withImage: image,
+                                                  textField: passwordTextField)
         return view
     }()
 
@@ -53,7 +55,8 @@ final class LoginController: UIViewController {
     }()
     
     private let dontHaveAccountButton: UIButton = {
-        let button = Utilities().attributedButton("Don't have an account?", " Sign Up")
+        let button = Utilities().attributedButton("Don't have an account?",
+                                                  " Sign Up")
         return button
     }()
 
@@ -70,39 +73,43 @@ final class LoginController: UIViewController {
     // MARK: - Selectors
 
     private func loginButtonAction() {
-        loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        loginButton.addTarget(self,
+                              action: #selector(handleLogin),
+                              for: .touchUpInside)
     }
     
     private func dontHaveAccountButtonAction() {
-        dontHaveAccountButton.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+        dontHaveAccountButton.addTarget(self,
+                                        action: #selector(handleShowSignUp),
+                                        for: .touchUpInside)
     }
 
     @objc private func handleLogin() {
         guard let email = emailTextField.text,
               let password = passwordTextField.text else { return }
             
-        AuthService.shared.logUserIn(withEmail: email, password: password) { (error, result) in
+        AuthService.shared.logUserIn(withEmail: email,
+                                     password: password) { (error, result) in
             
             let scenes = UIApplication.shared.connectedScenes
 
             guard let windowScene = scenes.first as? UIWindowScene,
                   let window = windowScene.windows.first,
                   let tab = window.rootViewController as? MainTabBarController else {
-            return
+                return
             }
-
+            
             tab.authenticateUserAndConfigureUI()
-
+            
             self.dismiss(animated: true, completion: nil)
-
+            
             if let error = error {
                 print("DEBUG: Error logging in \(error.localizedDescription)")
                 return
             }
-            
         }
     }
-    
+
     @objc private func handleShowSignUp() {
         let controller = RegistrationController()
         navigationController?.pushViewController(controller, animated: true)
@@ -118,8 +125,10 @@ final class LoginController: UIViewController {
 
     private func configureUI() {
         view.addSubview(logoImageView)
-        logoImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
-        logoImageView.setDimensions(width: 150, height: 150)
+        logoImageView.centerX(inView: view,
+                              topAnchor: view.safeAreaLayoutGuide.topAnchor)
+        logoImageView.setDimensions(width: 150,
+                                    height: 150)
         
         let stack = UIStackView(arrangedSubviews: [emailContainerView,
                                                    passwordContainerView,
