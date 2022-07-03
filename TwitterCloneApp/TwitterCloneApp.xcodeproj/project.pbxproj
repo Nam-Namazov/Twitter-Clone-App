@@ -24,6 +24,7 @@
 		99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AFC286C6B3900D7ACA4 /* Utilities.swift */; };
 		9934E6BC286DCC8F003CB237 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934E6BB286DCC8F003CB237 /* Constants.swift */; };
 		9934E6BE286DDA26003CB237 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934E6BD286DDA26003CB237 /* AuthService.swift */; };
+		995B8C0A28721CB700164ED4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B8C0928721CB700164ED4 /* UserService.swift */; };
 		99BE1923286DB4920083A9F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		99306AFC286C6B3900D7ACA4 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		9934E6BB286DCC8F003CB237 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9934E6BD286DDA26003CB237 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		995B8C0928721CB700164ED4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE025524B68A90F0E9883ED8 /* Pods_TwitterCloneApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterCloneApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				9934E6BD286DDA26003CB237 /* AuthService.swift */,
+				995B8C0928721CB700164ED4 /* UserService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995B8C0A28721CB700164ED4 /* UserService.swift in Sources */,
 				99306AEF286C3EE800D7ACA4 /* ConversationController.swift in Sources */,
 				99306AC7286C37EB00D7ACA4 /* AppDelegate.swift in Sources */,
 				99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */,
