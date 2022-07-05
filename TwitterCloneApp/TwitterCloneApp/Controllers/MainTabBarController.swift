@@ -16,8 +16,7 @@ final class MainTabBarController: UITabBarController {
             guard let nav = viewControllers?[0] as? UINavigationController,
                   let feed = nav.viewControllers.first as? FeedController else { return }
             
-            feed.user = user 
-            
+            feed.user = user
         }
     }
     
@@ -74,12 +73,13 @@ final class MainTabBarController: UITabBarController {
 
     private func actionButtonSetUp() {
         actionButton.addTarget(self,
-                         action: #selector(actionButtonTapped),
-                         for: .touchUpInside)
+                               action: #selector(actionButtonTapped),
+                               for: .touchUpInside)
     }
 
     @objc private func actionButtonTapped() {
-        print("1")
+        let nav = UINavigationController(rootViewController: UploadTweetController())
+        present(nav, animated: true)
     }
 
     // MARK: - Helpers
@@ -95,13 +95,19 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func configureVC() {
-        let feedVC = createNavController(viewController: FeedController(), itemImage: "home_unselected")
+        let feedVC = createNavController(viewController: FeedController(),
+                                         itemImage: "home_unselected")
 
-        let exploreVC = createNavController(viewController: ExploreController(), itemImage: "search_unselected")
+        let exploreVC = createNavController(viewController: ExploreController(),
+                                            itemImage: "search_unselected")
 
-        let notificationVC = createNavController(viewController: NotificationController(), itemImage: "like_unselected")
+        let notificationVC = createNavController(
+            viewController: NotificationController(),
+            itemImage: "like_unselected")
 
-        let conversationVC = createNavController(viewController: ConversationController(), itemImage: "ic_mail_outline_white_2x-1")
+        let conversationVC = createNavController(
+            viewController: ConversationController(),
+            itemImage: "ic_mail_outline_white_2x-1")
 
         viewControllers = [feedVC, exploreVC, notificationVC, conversationVC]
 
