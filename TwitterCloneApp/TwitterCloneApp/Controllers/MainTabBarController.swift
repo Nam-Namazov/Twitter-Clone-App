@@ -78,7 +78,8 @@ final class MainTabBarController: UITabBarController {
     }
 
     @objc private func actionButtonTapped() {
-        print("1")
+        let nav = UINavigationController(rootViewController: UploadTweetController())
+        present(nav, animated: true)
     }
 
     // MARK: - Helpers

@@ -27,6 +27,7 @@
 		995B8C0A28721CB700164ED4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B8C0928721CB700164ED4 /* UserService.swift */; };
 		995B8C0C287222CA00164ED4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B8C0B287222CA00164ED4 /* User.swift */; };
 		99BE1923286DB4920083A9F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */; };
+		99CF29252874D36800EF6EA5 /* UploadTweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CF29242874D36800EF6EA5 /* UploadTweetController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		995B8C0928721CB700164ED4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		995B8C0B287222CA00164ED4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		99CF29242874D36800EF6EA5 /* UploadTweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetController.swift; sourceTree = "<group>"; };
 		CE025524B68A90F0E9883ED8 /* Pods_TwitterCloneApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterCloneApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +143,7 @@
 				99306AE8286C3E7700D7ACA4 /* ExploreController.swift */,
 				99306AEA286C3EA000D7ACA4 /* NotificationController.swift */,
 				99306AEE286C3EE800D7ACA4 /* ConversationController.swift */,
+				99CF29242874D36800EF6EA5 /* UploadTweetController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				99306AF1286C4FBE00D7ACA4 /* Extensions.swift in Sources */,
 				99306AF9286C5FB100D7ACA4 /* LoginController.swift in Sources */,
 				9934E6BE286DDA26003CB237 /* AuthService.swift in Sources */,
+				99CF29252874D36800EF6EA5 /* UploadTweetController.swift in Sources */,
 				995B8C0C287222CA00164ED4 /* User.swift in Sources */,
 				99306AEB286C3EA000D7ACA4 /* NotificationController.swift in Sources */,
 				99306AE9286C3E7700D7ACA4 /* ExploreController.swift in Sources */,
