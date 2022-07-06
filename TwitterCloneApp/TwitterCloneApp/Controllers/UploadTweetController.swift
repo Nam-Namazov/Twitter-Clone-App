@@ -9,8 +9,10 @@ import UIKit
 
 final class UploadTweetController: UIViewController {
     // MARK: - Properties
+
     private let user: User
-    
+    private let captionTextView = CaptionTextView()
+
     private lazy var uploadTweetButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .twitterBlue
@@ -22,7 +24,7 @@ final class UploadTweetController: UIViewController {
         button.layer.cornerRadius = 32 / 2
         return button
     }()
-    
+
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -31,7 +33,6 @@ final class UploadTweetController: UIViewController {
         imageView.layer.cornerRadius = 48 / 2
         return imageView
     }()
-
     // MARK: - Lifecycle
 
     init (user: User) {
@@ -61,20 +62,26 @@ final class UploadTweetController: UIViewController {
     private func setupNavBar() {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
-        
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                            target: self,
                                                            action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadTweetButton)
     }
-    
+
     private func configureUI() {
-        view.addSubview(profileImageView)
-        profileImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                left: view.leftAnchor,
-                                paddingTop: 16,
-                                paddingLeft: 16)
-        
+        let stackView = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
+        stackView.axis = .horizontal
+        stackView.spacing = 12
+
+        view.addSubview(stackView)
+        stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         paddingTop: 16,
+                         paddingLeft: 16,
+                         paddingRight: 16)
+
         profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
     }
 
