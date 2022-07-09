@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-final class FeedController: UIViewController {
+final class FeedController: UICollectionViewController {
     // MARK: - Properties
 
     var user: User? {
@@ -19,6 +19,7 @@ final class FeedController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureCollectionView()
         configureUI()
         style()
         fetchTweets()
@@ -41,6 +42,12 @@ final class FeedController: UIViewController {
         navigationItem.titleView = logoImageView
     }
     
+    private func configureCollectionView() {
+        collectionView.register(TweetCell.self,
+                                forCellWithReuseIdentifier: TweetCell.identifier)
+        collectionView.backgroundColor = .white
+    }
+    
     private func configureLeftBarButton() {
         guard let user = user else { return }
 
@@ -55,5 +62,28 @@ final class FeedController: UIViewController {
 
     private func style() {
         view.backgroundColor = .white
+    }
+}
+// MARK: Extension
+extension FeedController {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TweetCell.identifier, for: indexPath) as? TweetCell else {
+            return UICollectionViewCell()
+        }
+        return cell 
+    }
+}
+// MARK: Extension UICollectionViewDelegateFlowLayout
+extension FeedController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 120)
     }
 }
