@@ -11,6 +11,10 @@ class TweetCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "cellid"
     
+    var tweet: Tweet? {
+        didSet { configure() }
+    }
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -122,6 +126,11 @@ class TweetCell: UICollectionViewCell {
                              bottom: bottomAnchor,
                              right: rightAnchor,
                              height: 1)
+    }
+    
+    private func configure() {
+        guard let tweet = tweet else { return }
+        captionLabel.text = tweet.caption
     }
     
     // MARK: - Selectors

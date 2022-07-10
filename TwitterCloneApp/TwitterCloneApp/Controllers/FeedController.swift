@@ -14,6 +14,10 @@ final class FeedController: UICollectionViewController {
     var user: User? {
         didSet { configureLeftBarButton() }
     }
+    
+    private var tweets = [Tweet]() {
+        didSet { collectionView.reloadData() }
+    }
 
     // MARK: - Lifecycle
 
@@ -29,7 +33,7 @@ final class FeedController: UICollectionViewController {
 
     func fetchTweets() {
         TweetService.shared.fetchTweets { tweets in
-            print("DEBUG: Tweets are \(tweets)")
+            self.tweets = tweets
         }
     }
 
@@ -64,11 +68,11 @@ final class FeedController: UICollectionViewController {
         view.backgroundColor = .white
     }
 }
-// MARK: Extension
+// MARK: - UICollectionViewDataSource / UICollectionViewDelegate
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return tweets.count
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -76,10 +80,13 @@ extension FeedController {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TweetCell.identifier, for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
+        
+        cell.tweet = tweets[indexPath.row]
+        
         return cell 
     }
 }
-// MARK: Extension UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
