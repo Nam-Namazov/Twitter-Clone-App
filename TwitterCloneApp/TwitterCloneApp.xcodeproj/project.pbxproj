@@ -10,7 +10,6 @@
 		033C52F8A66450F9BCB84DC5 /* Pods_TwitterCloneApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE025524B68A90F0E9883ED8 /* Pods_TwitterCloneApp.framework */; };
 		99306AC7286C37EB00D7ACA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AC6286C37EB00D7ACA4 /* AppDelegate.swift */; };
 		99306AC9286C37EB00D7ACA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AC8286C37EB00D7ACA4 /* SceneDelegate.swift */; };
-		99306ACE286C37EB00D7ACA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99306ACC286C37EB00D7ACA4 /* Main.storyboard */; };
 		99306AD0286C37ED00D7ACA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99306ACF286C37ED00D7ACA4 /* Assets.xcassets */; };
 		99306AD3286C37ED00D7ACA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99306AD1286C37ED00D7ACA4 /* LaunchScreen.storyboard */; };
 		99306AE5286C3B0000D7ACA4 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99306AE4286C3B0000D7ACA4 /* MainTabBarController.swift */; };
@@ -27,6 +26,7 @@
 		995B8C0A28721CB700164ED4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B8C0928721CB700164ED4 /* UserService.swift */; };
 		995B8C0C287222CA00164ED4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B8C0B287222CA00164ED4 /* User.swift */; };
 		99BE1923286DB4920083A9F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */; };
+		99C828B92885F6CF00ADF5AE /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C828B82885F6CF00ADF5AE /* ProfileController.swift */; };
 		99CC4DC3287B5395002CFCAC /* TweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CC4DC2287B5395002CFCAC /* TweetViewModel.swift */; };
 		99CF29252874D36800EF6EA5 /* UploadTweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CF29242874D36800EF6EA5 /* UploadTweetController.swift */; };
 		99CF29472876001900EF6EA5 /* CaptionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CF29462876001900EF6EA5 /* CaptionTextView.swift */; };
@@ -41,7 +41,6 @@
 		99306AC3286C37EB00D7ACA4 /* TwitterCloneApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterCloneApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99306AC6286C37EB00D7ACA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		99306AC8286C37EB00D7ACA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		99306ACD286C37EB00D7ACA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		99306ACF286C37ED00D7ACA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		99306AD2286C37ED00D7ACA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		99306AD4286C37ED00D7ACA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,7 +57,8 @@
 		9934E6BD286DDA26003CB237 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		995B8C0928721CB700164ED4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		995B8C0B287222CA00164ED4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "TwitterCloneApp/Resources/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		99C828B82885F6CF00ADF5AE /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		99CC4DC2287B5395002CFCAC /* TweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewModel.swift; sourceTree = "<group>"; };
 		99CF29242874D36800EF6EA5 /* UploadTweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetController.swift; sourceTree = "<group>"; };
 		99CF29462876001900EF6EA5 /* CaptionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTextView.swift; sourceTree = "<group>"; };
@@ -124,13 +124,8 @@
 				99306ADF286C396600D7ACA4 /* Controllers */,
 				99306ADE286C396500D7ACA4 /* API */,
 				99306AE3286C39AC00D7ACA4 /* Utilis */,
-				99306AC6286C37EB00D7ACA4 /* AppDelegate.swift */,
-				99306AC8286C37EB00D7ACA4 /* SceneDelegate.swift */,
-				99306ACC286C37EB00D7ACA4 /* Main.storyboard */,
-				99306ACF286C37ED00D7ACA4 /* Assets.xcassets */,
-				99306AD1286C37ED00D7ACA4 /* LaunchScreen.storyboard */,
-				99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */,
-				99306AD4286C37ED00D7ACA4 /* Info.plist */,
+				99C828B62885F22000ADF5AE /* Application */,
+				99C828B72885F25C00ADF5AE /* Resources */,
 			);
 			path = TwitterCloneApp;
 			sourceTree = "<group>";
@@ -155,6 +150,7 @@
 				99306AEA286C3EA000D7ACA4 /* NotificationController.swift */,
 				99306AEE286C3EE800D7ACA4 /* ConversationController.swift */,
 				99CF29242874D36800EF6EA5 /* UploadTweetController.swift */,
+				99C828B82885F6CF00ADF5AE /* ProfileController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -202,6 +198,26 @@
 				99306AFA286C5FC300D7ACA4 /* RegistrationController.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		99C828B62885F22000ADF5AE /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				99306AC6286C37EB00D7ACA4 /* AppDelegate.swift */,
+				99306AC8286C37EB00D7ACA4 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		99C828B72885F25C00ADF5AE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				99306ACF286C37ED00D7ACA4 /* Assets.xcassets */,
+				99306AD1286C37ED00D7ACA4 /* LaunchScreen.storyboard */,
+				99BE1922286DB4920083A9F5 /* GoogleService-Info.plist */,
+				99306AD4286C37ED00D7ACA4 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,7 +283,6 @@
 				99306AD3286C37ED00D7ACA4 /* LaunchScreen.storyboard in Resources */,
 				99BE1923286DB4920083A9F5 /* GoogleService-Info.plist in Resources */,
 				99306AD0286C37ED00D7ACA4 /* Assets.xcassets in Resources */,
-				99306ACE286C37EB00D7ACA4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +342,7 @@
 				99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */,
 				99306AC9286C37EB00D7ACA4 /* SceneDelegate.swift in Sources */,
 				99306AF1286C4FBE00D7ACA4 /* Extensions.swift in Sources */,
+				99C828B92885F6CF00ADF5AE /* ProfileController.swift in Sources */,
 				99F698ED28776A40000C4BA8 /* TweetCell.swift in Sources */,
 				99306AF9286C5FB100D7ACA4 /* LoginController.swift in Sources */,
 				9934E6BE286DDA26003CB237 /* AuthService.swift in Sources */,
@@ -347,14 +363,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		99306ACC286C37EB00D7ACA4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				99306ACD286C37EB00D7ACA4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		99306AD1286C37ED00D7ACA4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -490,10 +498,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ARQ22Y2Z2Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TwitterCloneApp/Info.plist;
+				INFOPLIST_FILE = TwitterCloneApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -519,10 +526,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ARQ22Y2Z2Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TwitterCloneApp/Info.plist;
+				INFOPLIST_FILE = TwitterCloneApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
