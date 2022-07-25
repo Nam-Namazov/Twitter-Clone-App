@@ -11,7 +11,7 @@ protocol TweetCellDelegate: AnyObject {
     func handleProfileImageTapped()
 }
 
-class TweetCell: UICollectionViewCell {
+final class TweetCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "cellid"
     

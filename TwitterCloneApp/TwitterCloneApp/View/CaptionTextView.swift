@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CaptionTextView: UITextView {
+final class CaptionTextView: UITextView {
     // MARK: - Properties
 
     let placeholderLabel: UILabel = {
