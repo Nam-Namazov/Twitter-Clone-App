@@ -133,7 +133,6 @@ final class MainTabBarController: UITabBarController {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().prefersLargeTitles = false
-        UINavigationBar.appearance().barStyle = .default
         UINavigationBar.appearance().tintColor = .black
         UINavigationBar.appearance().scrollEdgeAppearance = UINavigationBarAppearance()
     }

@@ -20,7 +20,10 @@ final class ProfileController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
     }
+    
+    
     
     private func style() {
         collectionView.backgroundColor = .white
@@ -28,7 +31,7 @@ final class ProfileController: UICollectionViewController {
     
     private func configureCollectionView() {
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: ProfileController.identifier)
-        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileController.identifier)
+        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeader.identifier)
         collectionView.contentInsetAdjustmentBehavior = .never
     }
 }
@@ -36,7 +39,7 @@ final class ProfileController: UICollectionViewController {
 // MARK: - UICollectionViewDelegate
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileController.identifier, for: indexPath) as? ProfileHeader else {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.identifier, for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
         return header
