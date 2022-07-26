@@ -11,7 +11,12 @@ import UIKit
 final class ProfileController: UICollectionViewController {
     static let identifier = "TweetCell"
     
+    
     private let user: User
+    
+    private var tweets = [Tweet]() {
+        didSet { collectionView.reloadData() }
+    }
     
     init(user: User) {
         self.user = user
@@ -26,11 +31,11 @@ final class ProfileController: UICollectionViewController {
         super.viewDidLoad()
         style()
         configureCollectionView()
+        fetchTweets()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -43,6 +48,12 @@ final class ProfileController: UICollectionViewController {
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeader.identifier)
         collectionView.contentInsetAdjustmentBehavior = .never
     }
+    
+    private func fetchTweets() {
+        TweetService.shared.fetchTweetsForProfile(forUser: user) { tweets in
+            self.tweets = tweets
+        }
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -51,7 +62,6 @@ extension ProfileController {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.identifier, for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
-        
         header.user = user
         header.delegate = self
         return header
@@ -61,13 +71,14 @@ extension ProfileController {
 // MARK: - UICollectionViewDataSource
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return tweets.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileController.identifier, for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
+        cell.tweet = tweets[indexPath.row]
         
         return cell
     }
