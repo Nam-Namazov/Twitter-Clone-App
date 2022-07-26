@@ -8,6 +8,10 @@
 import UIKit
 
 final class ProfileFilterCell: UICollectionViewCell {
+    var option: ProfileFilterOptions? {
+        didSet { titleLabel.text = option?.description }
+    }
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
