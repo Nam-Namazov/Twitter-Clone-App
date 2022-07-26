@@ -30,7 +30,6 @@ final class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -51,7 +50,6 @@ extension ProfileController {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.identifier, for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
-        
         header.user = user
         header.delegate = self
         return header
@@ -68,7 +66,6 @@ extension ProfileController {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileController.identifier, for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
-        
         return cell
     }
 }

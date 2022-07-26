@@ -13,5 +13,5 @@ let STORAGE_PROFILE_IMAGES = STORAGE_REF.child("profile_images") // child
 
 let DB_REF = Database.database().reference() // reference to database
 let REF_USERS = DB_REF.child("users")// reference to the user of database
-
 let REF_TWEETS = DB_REF.child("tweets")
+let REF_USER_TWEETS = DB_REF.child("user-tweets") // add user tweets for fetching tweets to profile tweets in profile controller
