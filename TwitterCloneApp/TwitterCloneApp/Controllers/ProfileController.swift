@@ -10,7 +10,18 @@ import UIKit
 
 final class ProfileController: UICollectionViewController {
     static let identifier = "TweetCell"
-
+    
+    private let user: User
+    
+    init(user: User) {
+        self.user = user
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
@@ -19,11 +30,9 @@ final class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isHidden = true
     }
-    
-    
     
     private func style() {
         collectionView.backgroundColor = .white
@@ -42,6 +51,9 @@ extension ProfileController {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.identifier, for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
+        
+        header.user = user
+        header.delegate = self
         return header
     }
 }
@@ -71,5 +83,12 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 120)
+    }
+}
+
+// MARK: - ProfileHeaderDelegate
+extension ProfileController: ProfileHeaderDelegate {
+    func handleDismissal() {
+        navigationController?.popViewController(animated: true)
     }
 }
