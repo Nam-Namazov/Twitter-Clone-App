@@ -8,7 +8,6 @@
 import UIKit
 
 class Utilities {
-
     func inputContainerView(withImage image: UIImage,
                             textField: UITextField) -> UIView {
         let view = UIView()

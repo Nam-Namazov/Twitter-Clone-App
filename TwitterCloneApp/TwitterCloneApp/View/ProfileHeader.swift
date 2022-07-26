@@ -10,6 +10,8 @@ import UIKit
 final class ProfileHeader: UICollectionReusableView {
     static let identifier = "ProfileHeader"
 
+    private let filterBar = ProfileFilterView()
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .twitterBlue
@@ -127,6 +129,12 @@ final class ProfileHeader: UICollectionReusableView {
         userDetailsStack.axis = .vertical
         userDetailsStack.distribution = .fillProportionally
         userDetailsStack.spacing = 4
+        
+        addSubview(filterBar)
+        filterBar.anchor(left: leftAnchor,
+                         bottom: bottomAnchor,
+                         right: rightAnchor,
+                         height: 50)
     }
     
     @objc private func handleDismissal() {
