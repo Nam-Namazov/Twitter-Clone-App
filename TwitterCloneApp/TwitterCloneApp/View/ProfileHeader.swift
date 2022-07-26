@@ -10,6 +10,8 @@ import UIKit
 final class ProfileHeader: UICollectionReusableView {
     static let identifier = "ProfileHeader"
 
+    private let filterBar = ProfileFilterView()
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .twitterBlue
@@ -76,13 +78,24 @@ final class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
+    private let underLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        configureFilterBarDelegate()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureFilterBarDelegate() {
+        filterBar.delegate = self
     }
     
     private func setup() {
@@ -127,6 +140,18 @@ final class ProfileHeader: UICollectionReusableView {
         userDetailsStack.axis = .vertical
         userDetailsStack.distribution = .fillProportionally
         userDetailsStack.spacing = 4
+        
+        addSubview(filterBar)
+        filterBar.anchor(left: leftAnchor,
+                         bottom: bottomAnchor,
+                         right: rightAnchor,
+                         height: 50)
+        
+        addSubview(underLineView)
+        underLineView.anchor(left: leftAnchor,
+                             bottom: bottomAnchor,
+                             width: frame.width / 3,
+                             height: 2)
     }
     
     @objc private func handleDismissal() {
@@ -135,5 +160,17 @@ final class ProfileHeader: UICollectionReusableView {
     
     @objc private func handleEditProfileFollow() {
         
+    }
+}
+// MARK: - ProfileFilterViewDelegate
+extension ProfileHeader: ProfileFilterViewDelegate {
+    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
+        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileFilterCell else {
+            return
+        }
+        let xPosition = cell.frame.origin.x
+        UIView.animate(withDuration: 0.3) {
+            self.underLineView.frame.origin.x = xPosition
+        }
     }
 }
