@@ -15,3 +15,5 @@ let DB_REF = Database.database().reference() // reference to database
 let REF_USERS = DB_REF.child("users")// reference to the user of database
 let REF_TWEETS = DB_REF.child("tweets")
 let REF_USER_TWEETS = DB_REF.child("user-tweets") // add user tweets for fetching tweets to profile tweets in profile controller
+let REF_USER_FOLLOWERS = DB_REF.child("user-followers")
+let REF_USER_FOLLOWING = DB_REF.child("user-following")
