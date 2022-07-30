@@ -22,7 +22,7 @@ final class UserCell: UITableViewCell {
         imageView.clipsToBounds = true
         imageView.setDimensions(width: 40, height: 40)
         imageView.layer.cornerRadius = 40 / 2
-        imageView.backgroundColor = .twitterBlue
+        imageView.backgroundColor = .systemGray
         return imageView
     }()
     
