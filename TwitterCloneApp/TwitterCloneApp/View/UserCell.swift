@@ -10,6 +10,12 @@ import UIKit
 final class UserCell: UITableViewCell {
     static let identifier = "UserCell"
     
+    var user: User? {
+        didSet {
+            configure()
+        }
+    }
+    
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -57,5 +63,14 @@ final class UserCell: UITableViewCell {
         stackView.centerY(inView: profileImageView,
                           leftAnchor: profileImageView.rightAnchor,
                           paddingLeft: 12)
+    }
+    
+    private func configure() {
+        guard let user = user else { return }
+        
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+        
+        usernameLabel.text = user.username
+        fullnameLabel.text = user.fullName
     }
 }
