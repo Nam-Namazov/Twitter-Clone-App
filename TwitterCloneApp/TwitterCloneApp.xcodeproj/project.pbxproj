@@ -37,6 +37,7 @@
 		99CF2949287609BA00EF6EA5 /* TweetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CF2948287609BA00EF6EA5 /* TweetService.swift */; };
 		99F698EB2877604E000C4BA8 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F698EA2877604E000C4BA8 /* Tweet.swift */; };
 		99F698ED28776A40000C4BA8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F698EC28776A40000C4BA8 /* TweetCell.swift */; };
+		99FB59EE289578EA00DC1F0B /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FB59ED289578EA00DC1F0B /* UserCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		99CF2948287609BA00EF6EA5 /* TweetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetService.swift; sourceTree = "<group>"; };
 		99F698EA2877604E000C4BA8 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		99F698EC28776A40000C4BA8 /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		99FB59ED289578EA00DC1F0B /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		CE025524B68A90F0E9883ED8 /* Pods_TwitterCloneApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterCloneApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -180,6 +182,7 @@
 				99873452288600EA00572114 /* ProfileHeader.swift */,
 				99C8C894288FFCAF0037B900 /* ProfileFilterView.swift */,
 				99C8C896288FFEA00037B900 /* ProfileFilterCell.swift */,
+				99FB59ED289578EA00DC1F0B /* UserCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				99CF29472876001900EF6EA5 /* CaptionTextView.swift in Sources */,
 				99C8C897288FFEA00037B900 /* ProfileFilterCell.swift in Sources */,
 				99306AC7286C37EB00D7ACA4 /* AppDelegate.swift in Sources */,
+				99FB59EE289578EA00DC1F0B /* UserCell.swift in Sources */,
 				99306AFD286C6B3900D7ACA4 /* Utilities.swift in Sources */,
 				99306AC9286C37EB00D7ACA4 /* SceneDelegate.swift in Sources */,
 				99306AF1286C4FBE00D7ACA4 /* Extensions.swift in Sources */,
