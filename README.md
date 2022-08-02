@@ -1,2 +1,2 @@
 # Twitter-Clone-App
-Twitter clone (mvvm, firebase and uikit)
+Twitter clone (firebase and uikit)
