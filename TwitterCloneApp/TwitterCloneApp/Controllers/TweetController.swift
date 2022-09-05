@@ -61,6 +61,7 @@ extension TweetController {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TweetHeader.identifier, for: indexPath) as? TweetHeader else {
             return UICollectionReusableView()
         }
+        header.tweet = tweet
         return header
     }
 }
