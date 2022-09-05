@@ -9,6 +9,7 @@ import UIKit
 
 final class TweetHeader: UICollectionReusableView {
     static let identifier = "TweetHeader"
+    static let shared = TweetHeader()
     
     var tweet: Tweet? {
         didSet {
@@ -78,7 +79,7 @@ final class TweetHeader: UICollectionReusableView {
     private let retweetsLabel = UILabel()
     private let likesLabel = UILabel()
     
-    private lazy var statsView: UIView = {
+    lazy var statsView: UIView = {
         let view = UIView()
         
         let divider1 = UIView()
@@ -179,7 +180,7 @@ final class TweetHeader: UICollectionReusableView {
         captionLabel.anchor(top: stack.bottomAnchor,
                             left: leftAnchor,
                             right: rightAnchor,
-                            paddingTop: 20,
+                            paddingTop: 12,
                             paddingLeft: 16,
                             paddingRight: 16)
         
@@ -198,7 +199,7 @@ final class TweetHeader: UICollectionReusableView {
         statsView.anchor(top: dateLabel.bottomAnchor,
                          left: leftAnchor,
                          right: rightAnchor,
-                         paddingTop: 20,
+                         paddingTop: 12,
                          height: 40)
         
         let actionStack = UIStackView(
@@ -210,8 +211,8 @@ final class TweetHeader: UICollectionReusableView {
         actionStack.spacing = 72
         addSubview(actionStack)
         actionStack.centerX(inView: self)
-        actionStack.anchor(bottom: bottomAnchor,
-                           paddingBottom: 12)
+        actionStack.anchor(top: statsView.bottomAnchor,
+                           paddingTop: 12)
     }
     
     @objc
