@@ -7,11 +7,15 @@
 
 import UIKit
 
+
+
 final class UploadTweetController: UIViewController {
     // MARK: - Properties
 
     private let user: User
     private let captionTextView = CaptionTextView()
+    private let config: UploadTweetConfiguration
+    private lazy var viewModel = UploadTweetViewModel(config: config)
 
     private lazy var uploadTweetButton: UIButton = {
         let button = UIButton(type: .system)
@@ -33,10 +37,19 @@ final class UploadTweetController: UIViewController {
         imageView.layer.cornerRadius = 48 / 2
         return imageView
     }()
+    
+    private lazy var replyLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .lightGray
+        return label
+    }()
+    
     // MARK: - Lifecycle
 
-    init (user: User) {
+    init (user: User, config: UploadTweetConfiguration) {
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,9 +65,6 @@ final class UploadTweetController: UIViewController {
         tweetUploadButtonTapped()
     }
 
-    // MARK: - API
-    // MARK: - Helpers
-
     private func style() {
         view.backgroundColor = .white
     }
@@ -63,18 +73,34 @@ final class UploadTweetController: UIViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                           target: self,
-                                                           action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadTweetButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(handleCancel)
+        )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            customView: uploadTweetButton
+        )
     }
 
     private func configureUI() {
-        let stackView = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
-        stackView.axis = .horizontal
+        let imageCaptionStackView = UIStackView(
+            arrangedSubviews: [profileImageView,
+                               captionTextView]
+        )
+        
+        imageCaptionStackView.axis = .horizontal
+        imageCaptionStackView.spacing = 12
+        imageCaptionStackView.alignment = .leading
+        
+        let stackView = UIStackView(
+            arrangedSubviews: [replyLabel,
+                               imageCaptionStackView]
+        )
+        stackView.axis = .vertical
         stackView.spacing = 12
-        stackView.alignment = .leading
-
+        
         view.addSubview(stackView)
         stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                          left: view.leftAnchor,
@@ -83,7 +109,15 @@ final class UploadTweetController: UIViewController {
                          paddingLeft: 16,
                          paddingRight: 16)
 
-        profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
+        profileImageView.sd_setImage(with: user.profileImageUrl,
+                                     completed: nil)
+        uploadTweetButton.setTitle(viewModel.actionButtonTitle,
+                                   for: .normal)
+        captionTextView.placeholderLabel.text = viewModel.placeholderText
+        
+        replyLabel.isHidden = !viewModel.shouldShowReplyLabel
+        guard let replyText = viewModel.replyText else { return }
+        replyLabel.text = replyText
     }
 
     // MARK: - Selectors
@@ -96,7 +130,10 @@ final class UploadTweetController: UIViewController {
 
     @objc private func handleUploadTweet() {
         guard let caption = captionTextView.text else { return }
-        TweetService.shared.uploadTweet(caption: caption) { error, ref in
+        TweetService.shared.uploadTweet(
+            caption: caption,
+            type: config
+        ) { error, ref in
             if let error = error {
                 print("DEBUG: Failed to upload tweet with error \(error.localizedDescription)")
                 return
