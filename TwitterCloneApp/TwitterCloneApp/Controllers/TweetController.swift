@@ -10,6 +10,11 @@ import UIKit
 final class TweetController: UICollectionViewController {
     
     private let tweet: Tweet
+    private var replies = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     init(tweet: Tweet) {
         self.tweet = tweet
@@ -23,6 +28,13 @@ final class TweetController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        fetchReplies()
+    }
+    
+    private func fetchReplies() {
+        TweetService.shared.fetchReplies(forTweet: tweet) { replies in
+            self.replies = replies
+        }
     }
     
     private func configureCollectionView() {
@@ -42,7 +54,7 @@ final class TweetController: UICollectionViewController {
 // MARK: - UICollectionViewDataSource
 extension TweetController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return replies.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -51,6 +63,9 @@ extension TweetController {
             for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
+        
+        cell.tweet = replies[indexPath.row]
+        
         return cell
     }
 }
