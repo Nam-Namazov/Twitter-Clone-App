@@ -10,6 +10,7 @@ import UIKit
 final class TweetController: UICollectionViewController {
     
     private let tweet: Tweet
+    private let actionSheetLauncher: ActionSheetLauncher
     private var replies = [Tweet]() {
         didSet {
             collectionView.reloadData()
@@ -18,6 +19,7 @@ final class TweetController: UICollectionViewController {
     
     init(tweet: Tweet) {
         self.tweet = tweet
+        self.actionSheetLauncher = ActionSheetLauncher(user: tweet.user)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -77,6 +79,7 @@ extension TweetController {
             return UICollectionReusableView()
         }
         header.tweet = tweet
+        header.delegate = self
         return header
     }
 }
@@ -93,5 +96,12 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 120)
+    }
+}
+
+// MARK: - TweetHeaderDelegate
+extension TweetController: TweetHeaderDelegate {
+    func showActionSheet() {
+        actionSheetLauncher.show()
     }
 }
