@@ -10,7 +10,7 @@ import UIKit
 final class TweetController: UICollectionViewController {
     
     private let tweet: Tweet
-    private let actionSheetLauncher: ActionSheetLauncher
+    private var actionSheetLauncher: ActionSheetLauncher!
     private var replies = [Tweet]() {
         didSet {
             collectionView.reloadData()
@@ -19,7 +19,6 @@ final class TweetController: UICollectionViewController {
     
     init(tweet: Tweet) {
         self.tweet = tweet
-        self.actionSheetLauncher = ActionSheetLauncher(user: tweet.user)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -51,6 +50,13 @@ final class TweetController: UICollectionViewController {
             withReuseIdentifier: TweetHeader.identifier
         )
     }
+    
+    fileprivate func showActionSheet(forUser user: User) {
+        actionSheetLauncher = ActionSheetLauncher(user: user)
+        actionSheetLauncher.delegate = self
+        actionSheetLauncher.show()
+    }
+
 }
 
 // MARK: - UICollectionViewDataSource
@@ -65,7 +71,6 @@ extension TweetController {
             for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
-        
         cell.tweet = replies[indexPath.row]
         
         return cell
@@ -102,6 +107,35 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
 // MARK: - TweetHeaderDelegate
 extension TweetController: TweetHeaderDelegate {
     func showActionSheet() {
-        actionSheetLauncher.show()
+        if tweet.user.isCurrentUser {
+            showActionSheet(forUser: tweet.user)
+        } else {
+            UserService.shared.checkIfUserIsFollowed(uid: tweet.user.uid) { [weak self] isFollowed in
+                guard let self = self else { return }
+                var user = self.tweet.user
+                user.isFollowed = isFollowed
+                self.showActionSheet(forUser: user)
+            }
+        }
+    }
+}
+
+// MARK: - ActionSheetLauncherDelegate
+extension TweetController: ActionSheetLauncherDelegate {
+    func didSelect(options: ActionSheetOptions) {
+        switch options {
+        case .follow(let user):
+            UserService.shared.followUser(uid: user.uid) { error, reference in
+                print("DEBUG: did follow user \(user.username)")
+            }
+        case .unfollow(let user):
+            UserService.shared.unfollowUser(uid: user.uid) { error, reference in
+                print("DEBUG: did unfollow user \(user.username)")
+            }
+        case .report:
+            print("DEBUG: Report tweet")
+        case .delete:
+            print("DEBUG: Delete tweet")
+        }
     }
 }

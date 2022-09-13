@@ -7,10 +7,16 @@
 
 import UIKit
 
+protocol ActionSheetLauncherDelegate: AnyObject {
+    func didSelect(options: ActionSheetOptions)
+}
+
 final class ActionSheetLauncher: NSObject {
+    weak var delegate: ActionSheetLauncherDelegate?
     private let user: User
     private let tableView = UITableView()
     private var window: UIWindow?
+    private var tableViewHeight: CGFloat?
     private lazy var viewModel = ActionSheetViewModel(user: user)
     private lazy var blackView: UIView = {
         let view = UIView()
@@ -71,19 +77,26 @@ final class ActionSheetLauncher: NSObject {
         window.addSubview(blackView)
         blackView.frame = window.frame
         window.addSubview(tableView)
+        
+        let height = CGFloat(viewModel.options.count * 60) + 100
+        self.tableViewHeight = height
         tableView.frame = CGRect(
             x: 0,
             y: window.frame.height,
             width: window.frame.width,
-            height: 300
+            height: height
         )
-        
-        let height = CGFloat(viewModel.options.count * 60) + 100
-        
         UIView.animate(withDuration: 0.5) {
             self.blackView.alpha = 1
-            self.tableView.frame.origin.y -= height
+            self.showTableView(true)
         }
+    }
+    
+    private func showTableView(_ shouldShow: Bool) {
+        guard let window = window else { return }
+        guard let height = tableViewHeight else { return }
+        let y = shouldShow ? window.frame.height - height : window.frame.height
+        tableView.frame.origin.y = y
     }
     
     private func configureTableView() {
@@ -134,6 +147,14 @@ extension ActionSheetLauncher: UITableViewDelegate {
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath,
                               animated: true)
+        let option = viewModel.options[indexPath.row]
+        
+        UIView.animate(withDuration: 0.5) {
+            self.blackView.alpha = 0
+            self.showTableView(false)
+        } completion: {_ in
+            self.delegate?.didSelect(options: option)
+        }
     }
     
     func tableView(_ tableView: UITableView,
