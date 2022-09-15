@@ -101,8 +101,10 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func configureVC() {
-        let feedVC = createNavController(viewController: FeedController(collectionViewLayout: UICollectionViewFlowLayout()),
-                                         itemImage: "home_unselected")
+        let feedVC = createNavController(
+            viewController: FeedController(collectionViewLayout: UICollectionViewFlowLayout()),
+            itemImage: "home_unselected"
+        )
 
         let exploreVC = createNavController(viewController: ExploreController(),
                                             itemImage: "search_unselected")
@@ -113,7 +115,10 @@ final class MainTabBarController: UITabBarController {
         let conversationVC = createNavController(viewController: ConversationController(),
                                                  itemImage: "ic_mail_outline_white_2x-1")
 
-        viewControllers = [feedVC, exploreVC, notificationVC, conversationVC]
+        viewControllers = [feedVC,
+                           exploreVC,
+                           notificationVC,
+                           conversationVC]
 }
 
     private func createNavController(viewController: UIViewController,
