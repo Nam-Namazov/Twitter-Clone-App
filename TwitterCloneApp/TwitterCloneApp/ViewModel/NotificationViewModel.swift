@@ -22,14 +22,14 @@ struct NotificationViewModel {
         formatter.maximumUnitCount = 1
         formatter.unitsStyle = .abbreviated
         let now = Date()
-        return formatter.string(from: notification.timestamp,
-                                to: now) ?? "2m"
+        return formatter.string(
+            from: notification.timestamp,
+            to: now) ?? "2m"
     }
     
     var profileImageUrl: URL? {
         return user.profileImageUrl
     }
-    
     
     var notificationMessage: String {
         switch type {
