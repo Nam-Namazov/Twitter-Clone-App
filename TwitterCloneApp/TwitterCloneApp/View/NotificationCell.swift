@@ -10,6 +10,12 @@ import UIKit
 final class NotificationCell: UITableViewCell {
     static let identifier = "NotificationCell"
     
+    var notification: Notification? {
+        didSet {
+            configure()
+        }
+    }
+    
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -41,6 +47,15 @@ final class NotificationCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure() {
+        guard let notification = notification else { return }
+        let viewModel = NotificationViewModel(notification: notification)
+        
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        notificationLabel.attributedText = viewModel.notificationText
+
     }
     
     private func layout() {

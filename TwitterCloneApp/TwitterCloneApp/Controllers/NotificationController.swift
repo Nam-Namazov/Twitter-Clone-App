@@ -66,6 +66,7 @@ extension NotificationController {
             for: indexPath) as? NotificationCell else {
             return UITableViewCell()
         }
+        cell.notification = notifications[indexPath.row]
         return cell
     }
 }
