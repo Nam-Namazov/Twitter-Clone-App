@@ -9,6 +9,7 @@ import UIKit
 
 protocol NotificationCellDelegate: AnyObject {
     func didTapProfileImage(_ cell: NotificationCell)
+    func didTapFollow(_ cell: NotificationCell)
 }
 
 final class NotificationCell: UITableViewCell {
@@ -36,6 +37,18 @@ final class NotificationCell: UITableViewCell {
         return imageView
     }()
     
+    private lazy var followButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Loading", for: .normal)
+        button.setTitleColor(UIColor.twitterBlue, for: .normal)
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.twitterBlue.cgColor
+        button.layer.borderWidth = 2
+        button.layer.cornerRadius = 32 / 2
+        button.addTarget(self, action: #selector(handleFollowTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private let notificationLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -61,6 +74,8 @@ final class NotificationCell: UITableViewCell {
         
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         notificationLabel.attributedText = viewModel.notificationText
+        followButton.isHidden = viewModel.shouldHideFollowButton
+        followButton.setTitle(viewModel.followButtonText, for: .normal)
     }
     
     private func layout() {
@@ -75,10 +90,20 @@ final class NotificationCell: UITableViewCell {
         stack.centerY(inView: self,
                       leftAnchor: leftAnchor,
                       paddingLeft: 12)
+        
+        contentView.addSubview(followButton)
+        followButton.centerY(inView: self)
+        followButton.setDimensions(width: 92, height: 32)
+        followButton.anchor(right: rightAnchor, paddingRight: 12)
     }
     
     @objc
     private func handleProfileImageTapped() {
         delegate?.didTapProfileImage(self)
+    }
+    
+    @objc
+    private func handleFollowTapped() {
+        delegate?.didTapFollow(self)
     }
 }
