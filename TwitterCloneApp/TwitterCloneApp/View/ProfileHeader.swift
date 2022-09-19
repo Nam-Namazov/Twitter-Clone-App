@@ -88,14 +88,8 @@ final class ProfileHeader: UICollectionReusableView {
         label.text = "This is a user bio that will span more then one line for test purposes"
         return label
     }()
-    
-    private let underLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .twitterBlue
-        return view
-    }()
-    
-    private let followingLabel: UILabel = {
+
+    private lazy var followingLabel: UILabel = {
         let label = UILabel()
         let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTapped))
         label.isUserInteractionEnabled = true
@@ -103,7 +97,7 @@ final class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
-    private let followersLabel: UILabel = {
+    private lazy var followersLabel: UILabel = {
         let label = UILabel()
         let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
         label.isUserInteractionEnabled = true
@@ -185,12 +179,6 @@ final class ProfileHeader: UICollectionReusableView {
                          bottom: bottomAnchor,
                          right: rightAnchor,
                          height: 50)
-        
-        addSubview(underLineView)
-        underLineView.anchor(left: leftAnchor,
-                             bottom: bottomAnchor,
-                             width: frame.width / 3,
-                             height: 2)
     }
     
     private func configure() {
@@ -227,12 +215,6 @@ final class ProfileHeader: UICollectionReusableView {
 // MARK: - ProfileFilterViewDelegate
 extension ProfileHeader: ProfileFilterViewDelegate {
     func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
-        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileFilterCell else {
-            return
-        }
-        let xPosition = cell.frame.origin.x
-        UIView.animate(withDuration: 0.3) {
-            self.underLineView.frame.origin.x = xPosition
-        }
+
     }
 }
