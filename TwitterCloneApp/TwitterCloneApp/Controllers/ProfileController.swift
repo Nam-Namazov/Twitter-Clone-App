@@ -31,8 +31,6 @@ final class ProfileController: UICollectionViewController {
         }
     }
     
-    
-    
     init(user: User) {
         self.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -47,6 +45,7 @@ final class ProfileController: UICollectionViewController {
         style()
         configureCollectionView()
         fetchTweets()
+        fetchLikedTweets()
         checkIfUserIsFollowed()
         fetchUserStats()
     }
@@ -64,12 +63,21 @@ final class ProfileController: UICollectionViewController {
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: ProfileController.identifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeader.identifier)
         collectionView.contentInsetAdjustmentBehavior = .never
+        
+        guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
+        collectionView.contentInset.bottom = tabHeight
     }
     
     private func fetchTweets() {
         TweetService.shared.fetchTweetsForProfile(forUser: user) { tweets in
             self.tweets = tweets
             self.collectionView.reloadData()
+        }
+    }
+    
+    private func fetchLikedTweets() {
+        TweetService.shared.fetchLikes(forUser: user) { tweets in
+            self.likedTweets = tweets
         }
     }
     
@@ -125,7 +133,9 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
+        let viewModel = TweetViewModel(tweet: tweets[indexPath.row])
+        let height = viewModel.size(forWidth: view.frame.width).height
+        return CGSize(width: view.frame.width, height: height + 72)
     }
 }
 
