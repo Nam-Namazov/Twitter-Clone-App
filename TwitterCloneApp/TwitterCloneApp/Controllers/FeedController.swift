@@ -37,17 +37,30 @@ final class FeedController: UICollectionViewController {
     // MARK: - API
 
     func fetchTweets() {
-        TweetService.shared.fetchTweets { tweets in
-            self.tweets = tweets
-            self.checkIfUserLikedTweets(tweets)
+        collectionView.refreshControl?.beginRefreshing()
+        
+        TweetService.shared.fetchTweets { [weak self] tweets in
+            guard let self = self else { return }
+            
+            self.tweets = tweets.sorted(by: {
+                $0.timestamp > $1.timestamp
+            })
+            self.checkIfUserLikedTweets()
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
-    func checkIfUserLikedTweets(_ tweets: [Tweet]) {
-        for (index, tweet) in tweets.enumerated() {
-            TweetService.shared.checkIfUserLikedTweet(tweet) { didLike in
+    func checkIfUserLikedTweets() {
+        self.tweets.forEach { tweet in
+            TweetService.shared.checkIfUserLikedTweet(tweet) { [weak self] didLike in
+                guard let self = self else { return }
                 guard didLike == true else { return }
-                self.tweets[index].didLike = true
+                
+                if let index = self.tweets.firstIndex(where: {
+                    $0.tweetID == tweet.tweetID
+                }) {
+                    self.tweets[index].didLike = true
+                }
             }
         }
     }
@@ -59,6 +72,14 @@ final class FeedController: UICollectionViewController {
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.setDimensions(width: 44, height: 44)
         navigationItem.titleView = logoImageView
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(handleRefresh),
+            for: .valueChanged
+        )
+        collectionView.refreshControl = refreshControl
     }
     
     private func configureCollectionView() {
@@ -81,6 +102,11 @@ final class FeedController: UICollectionViewController {
 
     private func style() {
         view.backgroundColor = .white
+    }
+    
+    @objc
+    private func handleRefresh() {
+        fetchTweets()
     }
 }
 
