@@ -36,11 +36,17 @@ final class TweetCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let replyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
+    }()
+    
     private let captionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.text = "some text here caption label bla bla"
         return label
     }()
     
@@ -99,40 +105,53 @@ final class TweetCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor,
-                                left: leftAnchor,
-                                paddingTop: 8,
-                                paddingLeft: 8)
-
-        let labelStack = UIStackView(arrangedSubviews: [infoLabel,
-                                                   captionLabel])
-        labelStack.axis = .vertical
-        labelStack.distribution = .fillProportionally
-        labelStack.spacing = 4
-        addSubview(labelStack)
-        labelStack.anchor(top: profileImageView.topAnchor,
-                         left: profileImageView.rightAnchor,
-                         right: rightAnchor,
-                         paddingLeft: 12,
-                         paddingRight: 12)
+        let captionStack = UIStackView(
+            arrangedSubviews: [infoLabel, captionLabel]
+        )
+        captionStack.axis = .vertical
+        captionStack.distribution = .fillProportionally
+        captionStack.spacing = 4
         
-        infoLabel.text = "someName @venom"
+        let imageCaptionStack = UIStackView(
+            arrangedSubviews: [profileImageView, captionStack]
+        )
+        imageCaptionStack.distribution = .fillProportionally
+        imageCaptionStack.spacing = 12
+        imageCaptionStack.alignment = .leading
         
-        let actionStack = UIStackView(arrangedSubviews: [commentButton,
-                                                         retweetButton,
-                                                         likeButton,
-                                                         shareButton])
+        let stack = UIStackView(
+            arrangedSubviews: [replyLabel, imageCaptionStack]
+        )
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.distribution = .fillProportionally
+        
+        contentView.addSubview(stack)
+        stack.anchor(top: topAnchor,
+                     left: leftAnchor,
+                     right: rightAnchor,
+                     paddingTop: 4,
+                     paddingLeft: 12,
+                     paddingRight: 12)
+        
+        replyLabel.isHidden = true 
+        
+        let actionStack = UIStackView(
+            arrangedSubviews: [commentButton,
+                               retweetButton,
+                               likeButton,
+                               shareButton]
+        )
         actionStack.axis = .horizontal
         actionStack.spacing = 72
-        addSubview(actionStack)
+        contentView.addSubview(actionStack)
         actionStack.centerX(inView: self)
         actionStack.anchor(bottom: bottomAnchor,
                            paddingBottom: 8)
         
         let underlineView = UIView()
         underlineView.backgroundColor = .systemGroupedBackground
-        addSubview(underlineView)
+        contentView.addSubview(underlineView)
         underlineView.anchor(left: leftAnchor,
                              bottom: bottomAnchor,
                              right: rightAnchor,
@@ -147,6 +166,8 @@ final class TweetCell: UICollectionViewCell {
         infoLabel.attributedText = viewModel.userInfoText
         likeButton.tintColor = viewModel.likeButtonTintColor
         likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        replyLabel.isHidden = viewModel.shouldHideReplyLabel
+        replyLabel.text = viewModel.replyText
     }
     
     // MARK: - Selectors
