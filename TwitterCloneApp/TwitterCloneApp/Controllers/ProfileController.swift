@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileController: UICollectionViewController {
     static let identifier = "TweetCell"
-
+    
     private var user: User
     private var selectedFilter: ProfileFilterOptions = .tweets {
         didSet {
@@ -162,7 +162,10 @@ extension ProfileController: ProfileHeaderDelegate {
     
     func handleEditProfileFollow(_ header: ProfileHeader) {
         if user.isCurrentUser {
-            print("edit profile")
+            let controller = EditProfileController(user: user)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
             return
         }
         
@@ -171,13 +174,16 @@ extension ProfileController: ProfileHeaderDelegate {
                 self.user.isFollowed = false
                 self.collectionView.reloadData()
             }
+            
         } else {
             UserService.shared.followUser(uid: user.uid) { ref, err in
                 self.user.isFollowed = true
                 self.collectionView.reloadData()
                 
-                NotificationService.shared.uploadNotification(type: .follow,
-                                                              user: self.user)
+                NotificationService.shared.uploadNotification(
+                    type: .follow,
+                    user: self.user
+                )
             }
         }
     }
