@@ -86,6 +86,11 @@ extension EditProfileController {
             return UITableViewCell()
         }
         
+        guard let option = EditProfileOptions(rawValue: indexPath.row) else {
+            return cell
+        }
+        
+        cell.viewModel = EditProfileViewModel(user: user, option: option)
         return cell
     }
 }
@@ -97,8 +102,12 @@ extension EditProfileController {
         guard let option = EditProfileOptions(rawValue: indexPath.row) else {
             return 0
         }
-        
         return option == .bio ? 100 : 48
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
