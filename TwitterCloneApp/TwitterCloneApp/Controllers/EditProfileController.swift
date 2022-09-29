@@ -55,6 +55,10 @@ final class EditProfileController: UITableViewController {
             height: 180
         )
         tableView.tableFooterView = UIView()
+        tableView.register(
+            EditProfileCell.self,
+            forCellReuseIdentifier: EditProfileCell.identifier
+        )
         headerView.delegate = self
     }
     
@@ -67,9 +71,40 @@ final class EditProfileController: UITableViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
+extension EditProfileController {
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
+        return EditProfileOptions.allCases.count
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: EditProfileCell.identifier,
+            for: indexPath) as? EditProfileCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension EditProfileController {
+    override func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let option = EditProfileOptions(rawValue: indexPath.row) else {
+            return 0
+        }
+        
+        return option == .bio ? 100 : 48
+    }
+}
+
 // MARK: - EditProfileHeaderDelegate
 extension EditProfileController: EditProfileHeaderDelegate {
     func didTapChangeProfilePhoto() {
-        print("changed profile photo")
+        
     }
 }
