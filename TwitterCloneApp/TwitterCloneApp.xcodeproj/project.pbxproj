@@ -27,6 +27,8 @@
 		9934E6BC286DCC8F003CB237 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934E6BB286DCC8F003CB237 /* Constants.swift */; };
 		9934E6BE286DDA26003CB237 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934E6BD286DDA26003CB237 /* AuthService.swift */; };
 		993CDA3628E5F73E00A00EEB /* EditProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993CDA3528E5F73E00A00EEB /* EditProfileHeader.swift */; };
+		993CDA3828E6029900A00EEB /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993CDA3728E6029900A00EEB /* EditProfileViewModel.swift */; };
+		993CDA3A28E6032700A00EEB /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993CDA3928E6032700A00EEB /* EditProfileCell.swift */; };
 		993F745B28D3BD7E00771E54 /* Notification .swift in Sources */ = {isa = PBXBuildFile; fileRef = 993F745A28D3BD7E00771E54 /* Notification .swift */; };
 		993F745D28D3BFB800771E54 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993F745C28D3BFB800771E54 /* NotificationService.swift */; };
 		993F745F28D3C7EB00771E54 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993F745E28D3C7EB00771E54 /* NotificationCell.swift */; };
@@ -76,6 +78,8 @@
 		9934E6BB286DCC8F003CB237 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9934E6BD286DDA26003CB237 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		993CDA3528E5F73E00A00EEB /* EditProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileHeader.swift; sourceTree = "<group>"; };
+		993CDA3728E6029900A00EEB /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		993CDA3928E6032700A00EEB /* EditProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
 		993F745A28D3BD7E00771E54 /* Notification .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification .swift"; sourceTree = "<group>"; };
 		993F745C28D3BFB800771E54 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		993F745E28D3C7EB00771E54 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				99C0D12228CD32A000787EA6 /* UploadTweetViewModel.swift */,
 				99287C3D28D0A9EB0080694B /* ActionSheetViewModel.swift */,
 				99DBA6A028D5154900F0E555 /* NotificationViewModel.swift */,
+				993CDA3728E6029900A00EEB /* EditProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				99873452288600EA00572114 /* ProfileHeader.swift */,
 				99C8C894288FFCAF0037B900 /* ProfileFilterView.swift */,
 				993CDA3528E5F73E00A00EEB /* EditProfileHeader.swift */,
+				993CDA3928E6032700A00EEB /* EditProfileCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -410,6 +416,7 @@
 				998AABEB28C53A0600C8B1A1 /* TweetController.swift in Sources */,
 				99C828B92885F6CF00ADF5AE /* ProfileController.swift in Sources */,
 				99C0D12328CD32A000787EA6 /* UploadTweetViewModel.swift in Sources */,
+				993CDA3A28E6032700A00EEB /* EditProfileCell.swift in Sources */,
 				99873453288600EA00572114 /* ProfileHeader.swift in Sources */,
 				99F698ED28776A40000C4BA8 /* TweetCell.swift in Sources */,
 				99306AF9286C5FB100D7ACA4 /* LoginController.swift in Sources */,
@@ -426,6 +433,7 @@
 				99CC4DC3287B5395002CFCAC /* TweetViewModel.swift in Sources */,
 				99287C3E28D0A9EB0080694B /* ActionSheetViewModel.swift in Sources */,
 				993F745F28D3C7EB00771E54 /* NotificationCell.swift in Sources */,
+				993CDA3828E6029900A00EEB /* EditProfileViewModel.swift in Sources */,
 				99306AFB286C5FC300D7ACA4 /* RegistrationController.swift in Sources */,
 				99306AE5286C3B0000D7ACA4 /* MainTabBarController.swift in Sources */,
 				9934E6BC286DCC8F003CB237 /* Constants.swift in Sources */,
