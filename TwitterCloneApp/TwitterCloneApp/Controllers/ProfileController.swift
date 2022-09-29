@@ -164,7 +164,7 @@ extension ProfileController: ProfileHeaderDelegate {
         if user.isCurrentUser {
             let controller = EditProfileController(user: user)
             let nav = UINavigationController(rootViewController: controller)
-            nav.modalPresentationStyle = .fullScreen
+            nav.modalPresentationStyle = .automatic
             present(nav, animated: true)
             return
         }
