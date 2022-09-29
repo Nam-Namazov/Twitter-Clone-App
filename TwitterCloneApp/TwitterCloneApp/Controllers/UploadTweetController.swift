@@ -13,7 +13,7 @@ final class UploadTweetController: UIViewController {
     // MARK: - Properties
 
     private let user: User
-    private let captionTextView = CaptionTextView()
+    private let captionTextView = InputTextView()
     private let config: UploadTweetConfiguration
     private lazy var viewModel = UploadTweetViewModel(config: config)
 
