@@ -8,8 +8,14 @@
 import UIKit
 
 final class EditProfileController: UITableViewController {
-    private let user: User
+    private var user: User
     private lazy var headerView = EditProfileHeader(user: user)
+    private let imagePicker = UIImagePickerController()
+    private var selectedImage: UIImage? {
+        didSet {
+            headerView.profileImageView.image = selectedImage 
+        }
+    }
     
     init(user: User) {
         self.user = user
@@ -24,6 +30,7 @@ final class EditProfileController: UITableViewController {
         super.viewDidLoad()
         configureNavBar()
         configureTableView()
+        configureImagePicker()
     }
     
     private func configureNavBar() {
@@ -62,6 +69,11 @@ final class EditProfileController: UITableViewController {
         headerView.delegate = self
     }
     
+    private func configureImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+    
     @objc private func handleCancel() {
         dismiss(animated: true)
     }
@@ -85,6 +97,8 @@ extension EditProfileController {
             for: indexPath) as? EditProfileCell else {
             return UITableViewCell()
         }
+        
+        cell.delegate = self
         
         guard let option = EditProfileOptions(rawValue: indexPath.row) else {
             return cell
@@ -114,6 +128,41 @@ extension EditProfileController {
 // MARK: - EditProfileHeaderDelegate
 extension EditProfileController: EditProfileHeaderDelegate {
     func didTapChangeProfilePhoto() {
+        present(imagePicker, animated: true)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+extension EditProfileController: UIImagePickerControllerDelegate,
+                                 UINavigationControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        self.selectedImage = image
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - EditProfileCellDelegate
+extension EditProfileController: EditProfileCellDelegate {
+    func updateUserInfo(_ cell: EditProfileCell) {
+        guard let viewModel = cell.viewModel else { return }
         
+        switch viewModel.option {
+        case .fullname:
+            guard let fullname = cell.infoTextField.text else { return }
+            user.fullName = fullname
+        case .username:
+            guard let username = cell.infoTextField.text else { return }
+            user.username = username
+        case .bio:
+            user.bio = cell.bioTextView.text
+        }
+        
+        print("fullname is \(user.fullName)")
+        print("username is \(user.username)")
+        print("bio is \(user.bio)")
     }
 }

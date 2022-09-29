@@ -40,7 +40,7 @@ struct EditProfileViewModel {
         }
     }
     
-    private let option: EditProfileOptions
+    let option: EditProfileOptions
     private let user: User
     
     init(user: User, option: EditProfileOptions) {
