@@ -9,6 +9,7 @@ import UIKit
 
 final class EditProfileController: UITableViewController {
     private let user: User
+    private lazy var headerView = EditProfileHeader(user: user)
     
     init(user: User) {
         self.user = user
@@ -22,13 +23,14 @@ final class EditProfileController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
+        configureTableView()
     }
     
     private func configureNavBar() {
         navigationController?.navigationBar.barTintColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .black
         
         navigationItem.title = "Edit Profile"
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -42,7 +44,18 @@ final class EditProfileController: UITableViewController {
             target: self,
             action: #selector(handleDone)
         )
-        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    private func configureTableView() {
+        tableView.tableHeaderView = headerView
+        headerView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width,
+            height: 180
+        )
+        tableView.tableFooterView = UIView()
+        headerView.delegate = self
     }
     
     @objc private func handleCancel() {
@@ -51,5 +64,12 @@ final class EditProfileController: UITableViewController {
     
     @objc private func handleDone() {
         dismiss(animated: true)
+    }
+}
+
+// MARK: - EditProfileHeaderDelegate
+extension EditProfileController: EditProfileHeaderDelegate {
+    func didTapChangeProfilePhoto() {
+        print("changed profile photo")
     }
 }
