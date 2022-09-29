@@ -14,9 +14,7 @@ protocol EditProfileHeaderDelegate: AnyObject {
 final class EditProfileHeader: UIView {
     weak var delegate: EditProfileHeaderDelegate?
     
-    private let user: User
-    
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -26,6 +24,8 @@ final class EditProfileHeader: UIView {
         imageView.layer.cornerRadius = 100 / 2
         return imageView
     }()
+    
+    private let user: User
     
     private let changePhotoButton: UIButton = {
         let button = UIButton(type: .system)

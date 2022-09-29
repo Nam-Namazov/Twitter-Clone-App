@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol EditProfileCellDelegate: AnyObject {
+    func updateUserInfo(_ cell: EditProfileCell)
+}
+
 final class EditProfileCell: UITableViewCell {
     static let identifier = "EditProfileCell"
     
@@ -16,13 +20,15 @@ final class EditProfileCell: UITableViewCell {
         }
     }
     
+    weak var delegate: EditProfileCellDelegate?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    private lazy var infoTextField: UITextField = {
+    lazy var infoTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
         textField.font = UIFont.systemFont(ofSize: 14)
@@ -31,7 +37,7 @@ final class EditProfileCell: UITableViewCell {
         return textField
     }()
     
-    private let bioTextView: InputTextView = {
+    let bioTextView: InputTextView = {
         let textView = InputTextView()
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.textColor = .twitterBlue
@@ -67,7 +73,7 @@ final class EditProfileCell: UITableViewCell {
     
     @objc
     private func handleUpdateUserInfo() {
-        
+        delegate?.updateUserInfo(self)
     }
     
     private func configure() {
@@ -110,6 +116,13 @@ final class EditProfileCell: UITableViewCell {
             paddingTop: 4,
             paddingLeft: 16,
             paddingRight: 8
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUpdateUserInfo),
+            name: UITextView.textDidEndEditingNotification,
+            object: nil
         )
     }
 }
