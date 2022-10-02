@@ -78,4 +78,15 @@ struct UserService {
             }
         }
     }
+    
+    func saveUserData(user: User, completion: @escaping (DatabaseCompletion)) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let values = ["fullname": user.fullName,
+                      "username": user.username,
+                      "bio": user.bio ?? ""]
+        
+        REF_USERS.child(uid).updateChildValues(values,
+                                               withCompletionBlock: completion)
+    }
 }
