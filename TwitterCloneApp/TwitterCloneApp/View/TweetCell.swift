@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol TweetCellDelegate: AnyObject {
     func handleProfileImageTapped(_ cell: TweetCell)
     func handleReplyTapped(_ cell: TweetCell)
     func handleLikeTapped(_ cell: TweetCell)
+    func handleFetchUser(withUsername username: String)
 }
 
 final class TweetCell: UICollectionViewCell {
@@ -36,17 +38,20 @@ final class TweetCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let replyLabel: UILabel = {
-        let label = UILabel()
+    private let replyLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 12)
+        label.mentionColor = .twitterBlue
         return label
     }()
     
-    private let captionLabel: UILabel = {
-        let label = UILabel()
+    private let captionLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
+        label.mentionColor = .twitterBlue
+        label.hashtagColor = .twitterBlue
         return label
     }()
     
@@ -93,6 +98,7 @@ final class TweetCell: UICollectionViewCell {
         super.init(frame: frame)
         style()
         configureUI()
+        configureMentationHandler()
     }
     
     required init?(coder: NSCoder) {
@@ -168,6 +174,13 @@ final class TweetCell: UICollectionViewCell {
         likeButton.setImage(viewModel.likeButtonImage, for: .normal)
         replyLabel.isHidden = viewModel.shouldHideReplyLabel
         replyLabel.text = viewModel.replyText
+    }
+    
+    private func configureMentationHandler() {
+        captionLabel.handleMentionTap { [weak self] username in
+            guard let self = self else { return }
+            self.delegate?.handleFetchUser(withUsername: username)
+        }
     }
     
     // MARK: - Selectors
