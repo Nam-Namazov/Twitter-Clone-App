@@ -68,7 +68,7 @@ final class TweetHeader: UICollectionReusableView {
         return label
     }()
     
-    private let optionsButton: UIButton = {
+    private lazy var optionsButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .lightGray
         button.setImage(
