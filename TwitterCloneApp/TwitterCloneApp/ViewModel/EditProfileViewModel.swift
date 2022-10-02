@@ -28,6 +28,10 @@ struct EditProfileViewModel {
         return option != .bio
     }
     
+    var shouldHidePlaceholderLabel: Bool {
+        return user.bio != nil 
+    }
+    
     var titleText: String {
         return option.description
     }

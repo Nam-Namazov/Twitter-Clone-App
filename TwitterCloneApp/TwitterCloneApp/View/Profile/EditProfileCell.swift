@@ -83,6 +83,7 @@ final class EditProfileCell: UITableViewCell {
         bioTextView.isHidden = viewModel.shouldHideTextView
         titleLabel.text = viewModel.titleText
         infoTextField.text = viewModel.optionValue
+        bioTextView.placeholderLabel.isHidden = viewModel.shouldHidePlaceholderLabel
         bioTextView.text = viewModel.optionValue
     }
     
@@ -114,7 +115,7 @@ final class EditProfileCell: UITableViewCell {
             bottom: bottomAnchor,
             right: rightAnchor,
             paddingTop: 4,
-            paddingLeft: 16,
+            paddingLeft: 14,
             paddingRight: 8
         )
         
