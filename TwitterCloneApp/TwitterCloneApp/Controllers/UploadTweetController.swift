@@ -6,8 +6,7 @@
 //
 
 import UIKit
-
-
+import ActiveLabel
 
 final class UploadTweetController: UIViewController {
     // MARK: - Properties
@@ -38,10 +37,11 @@ final class UploadTweetController: UIViewController {
         return imageView
     }()
     
-    private lazy var replyLabel: UILabel = {
-        let label = UILabel()
+    private lazy var replyLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
+        label.mentionColor = .twitterBlue
         return label
     }()
     
@@ -63,6 +63,7 @@ final class UploadTweetController: UIViewController {
         configureUI()
         setupNavBar()
         tweetUploadButtonTapped()
+        configureMention()
     }
 
     private func style() {
@@ -82,6 +83,12 @@ final class UploadTweetController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             customView: uploadTweetButton
         )
+    }
+    
+    private func configureMention() {
+        replyLabel.handleMentionTap { mention in
+            print("mention is \(mention)")
+        }
     }
 
     private func configureUI() {
