@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EditProfileControllerDelegate: AnyObject {
+    func controller(_ controller: EditProfileController,
+                    wantsToUpdate user: User)
+}
+
 final class EditProfileController: UITableViewController {
     private var user: User
+    private var userInfoChanged = false
     private lazy var headerView = EditProfileHeader(user: user)
     private let imagePicker = UIImagePickerController()
     private var selectedImage: UIImage? {
@@ -16,6 +22,8 @@ final class EditProfileController: UITableViewController {
             headerView.profileImageView.image = selectedImage 
         }
     }
+    weak var delegate: EditProfileControllerDelegate?
+    
     
     init(user: User) {
         self.user = user
@@ -79,7 +87,14 @@ final class EditProfileController: UITableViewController {
     }
     
     @objc private func handleDone() {
-        dismiss(animated: true)
+        updateUserData()
+    }
+    
+    private func updateUserData() {
+        UserService.shared.saveUserData(user: user) { [weak self] error, reference in
+            guard let self = self else { return }
+            self.delegate?.controller(self, wantsToUpdate: self.user)
+        }
     }
 }
 
@@ -149,6 +164,8 @@ extension EditProfileController: UIImagePickerControllerDelegate,
 extension EditProfileController: EditProfileCellDelegate {
     func updateUserInfo(_ cell: EditProfileCell) {
         guard let viewModel = cell.viewModel else { return }
+        userInfoChanged = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
         
         switch viewModel.option {
         case .fullname:
@@ -160,9 +177,5 @@ extension EditProfileController: EditProfileCellDelegate {
         case .bio:
             user.bio = cell.bioTextView.text
         }
-        
-        print("fullname is \(user.fullName)")
-        print("username is \(user.username)")
-        print("bio is \(user.bio)")
     }
 }
