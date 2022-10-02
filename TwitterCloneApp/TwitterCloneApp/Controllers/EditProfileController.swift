@@ -14,9 +14,12 @@ protocol EditProfileControllerDelegate: AnyObject {
 
 final class EditProfileController: UITableViewController {
     private var user: User
-    private var userInfoChanged = false
     private lazy var headerView = EditProfileHeader(user: user)
     private let imagePicker = UIImagePickerController()
+    private var userInfoChanged = false
+    private var imageChanged: Bool {
+        return selectedImage != nil
+    }
     private var selectedImage: UIImage? {
         didSet {
             headerView.profileImageView.image = selectedImage 
@@ -87,12 +90,36 @@ final class EditProfileController: UITableViewController {
     }
     
     @objc private func handleDone() {
+        view.endEditing(true)
+        guard imageChanged || userInfoChanged else { return }
         updateUserData()
     }
     
     private func updateUserData() {
-        UserService.shared.saveUserData(user: user) { [weak self] error, reference in
+        if imageChanged && !userInfoChanged {
+            updateProfileImage()
+        }
+        
+        if userInfoChanged && !imageChanged {
+            UserService.shared.saveUserData(user: user) { [weak self] error, reference in
+                guard let self = self else { return }
+                self.delegate?.controller(self, wantsToUpdate: self.user)
+            }
+        }
+        
+        if userInfoChanged && imageChanged {
+            UserService.shared.saveUserData(user: user) { error, reference in
+                self.updateProfileImage()
+            }
+        }
+    }
+    
+    private func updateProfileImage() {
+        guard let image = selectedImage else { return }
+        
+        UserService.shared.updateProfileImage(image: image) { [weak self] profileImageUrl in
             guard let self = self else { return }
+            self.user.profileImageUrl = profileImageUrl
             self.delegate?.controller(self, wantsToUpdate: self.user)
         }
     }
