@@ -5,8 +5,8 @@
 //  Created by Намик on 7/18/22.
 //
 
-import Foundation
 import UIKit
+import Firebase
 
 final class ProfileController: UICollectionViewController {
     static let identifier = "TweetCell"
@@ -143,7 +143,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         var height: CGFloat = 300
         
         if user.bio != nil {
-            height += 50 
+            height += 50
         }
         
         return CGSize(width: view.frame.width, height: height)
@@ -203,6 +203,17 @@ extension ProfileController: ProfileHeaderDelegate {
 
 // MARK: - EditProfileControllerDelegate
 extension ProfileController: EditProfileControllerDelegate {
+    func handleLogout() {
+        do {
+            try Auth.auth().signOut()
+            let nav = UINavigationController(rootViewController: LoginController())
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        } catch let error {
+            print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
+        }
+    }
+    
     func controller(_ controller: EditProfileController,
                     wantsToUpdate user: User) {
         controller.dismiss(animated: true)
