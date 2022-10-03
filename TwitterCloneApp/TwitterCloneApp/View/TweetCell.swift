@@ -34,7 +34,7 @@ final class TweetCell: UICollectionViewCell {
         imageView.backgroundColor = .twitterBlue
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleProfileImageTapped))
         imageView.addGestureRecognizer(tap)
-        imageView.isUserInteractionEnabled = true 
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -56,38 +56,42 @@ final class TweetCell: UICollectionViewCell {
     }()
     
     private lazy var commentButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "comment"), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        button.addTarget(self, action: #selector(handleCommentTapped), for: .touchUpInside)
+        let button = createButton(withImageName: "comment")
+        button.addTarget(
+            self,
+            action: #selector(handleCommentTapped),
+            for: .touchUpInside
+        )
         return button
     }()
     
     private lazy var retweetButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "retweet"), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        button.addTarget(self, action: #selector(handleRetweetTapped), for: .touchUpInside)
+        let button = createButton(withImageName: "retweet")
+        button.addTarget(
+            self,
+            action: #selector(handleRetweetTapped),
+            for: .touchUpInside
+        )
         return button
     }()
-    
+     
     private lazy var likeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "like"), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        button.addTarget(self, action: #selector(handleLikeTapped), for: .touchUpInside)
+        let button = createButton(withImageName: "like")
+        button.addTarget(
+            self,
+            action: #selector(handleLikeTapped),
+            for: .touchUpInside
+        )
         return button
     }()
     
     private lazy var shareButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "share"), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        button.addTarget(self, action: #selector(handleShareTapped), for: .touchUpInside)
+        let button = createButton(withImageName: "share")
+        button.addTarget(
+            self,
+            action: #selector(handleShareTapped),
+            for: .touchUpInside
+        )
         return button
     }()
     
@@ -140,7 +144,7 @@ final class TweetCell: UICollectionViewCell {
                      paddingLeft: 12,
                      paddingRight: 12)
         
-        replyLabel.isHidden = true 
+        replyLabel.isHidden = true
         
         let actionStack = UIStackView(
             arrangedSubviews: [commentButton,
@@ -181,6 +185,14 @@ final class TweetCell: UICollectionViewCell {
             guard let self = self else { return }
             self.delegate?.handleFetchUser(withUsername: username)
         }
+    }
+    
+    private func createButton(withImageName imageName: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
+        button.setDimensions(width: 20, height: 20)
+        return button
     }
     
     // MARK: - Selectors

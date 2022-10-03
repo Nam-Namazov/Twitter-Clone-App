@@ -10,12 +10,12 @@ import ActiveLabel
 
 final class UploadTweetController: UIViewController {
     // MARK: - Properties
-
+    
     private let user: User
     private let captionTextView = InputTextView()
     private let config: UploadTweetConfiguration
     private lazy var viewModel = UploadTweetViewModel(config: config)
-
+    
     private lazy var uploadTweetButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .twitterBlue
@@ -27,7 +27,7 @@ final class UploadTweetController: UIViewController {
         button.layer.cornerRadius = 32 / 2
         return button
     }()
-
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -46,17 +46,17 @@ final class UploadTweetController: UIViewController {
     }()
     
     // MARK: - Lifecycle
-
+    
     init (user: User, config: UploadTweetConfiguration) {
         self.user = user
         self.config = config
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
@@ -65,15 +65,36 @@ final class UploadTweetController: UIViewController {
         tweetUploadButtonTapped()
         configureMention()
     }
-
+    
+    fileprivate func uploadMentionNotification(forCaption caption: String,
+                                               tweetID: String?) {
+        guard caption.contains("@") else { return }
+        let words = caption.components(separatedBy: .whitespacesAndNewlines)
+        
+        words.forEach { word in
+            guard word.hasPrefix("@") else { return }
+            
+            var username = word.trimmingCharacters(in: .symbols)
+            username = username.trimmingCharacters(in: .punctuationCharacters)
+            
+            UserService.shared.fetchUser(withUsername: username) { mentionedUser in
+                NotificationService.shared.uploadNotification(
+                    toUser: mentionedUser,
+                    type: .mention,
+                    tweetID: tweetID
+                )
+            }
+        }
+    }
+    
     private func style() {
         view.backgroundColor = .white
     }
-
+    
     private func setupNavBar() {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
-
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -90,7 +111,7 @@ final class UploadTweetController: UIViewController {
             print("mention is \(mention)")
         }
     }
-
+    
     private func configureUI() {
         let imageCaptionStackView = UIStackView(
             arrangedSubviews: [profileImageView,
@@ -115,7 +136,7 @@ final class UploadTweetController: UIViewController {
                          paddingTop: 16,
                          paddingLeft: 16,
                          paddingRight: 16)
-
+        
         profileImageView.sd_setImage(with: user.profileImageUrl,
                                      completed: nil)
         uploadTweetButton.setTitle(viewModel.actionButtonTitle,
@@ -126,15 +147,15 @@ final class UploadTweetController: UIViewController {
         guard let replyText = viewModel.replyText else { return }
         replyLabel.text = replyText
     }
-
+    
     // MARK: - Selectors
-
+    
     private func tweetUploadButtonTapped() {
         uploadTweetButton.addTarget(self,
                                     action: #selector(handleUploadTweet),
                                     for: .touchUpInside)
     }
-
+    
     @objc private func handleUploadTweet() {
         guard let caption = captionTextView.text else { return }
         TweetService.shared.uploadTweet(
@@ -148,15 +169,16 @@ final class UploadTweetController: UIViewController {
             
             if case .reply(let tweet) = self.config {
                 NotificationService.shared.uploadNotification(
+                    toUser: tweet.user,
                     type: .reply,
-                    tweet: tweet
+                    tweetID: tweet.tweetID
                 )
             }
-            
+            self.uploadMentionNotification(forCaption: caption, tweetID: ref.key)
             self.dismiss(animated: true, completion: nil)
         }
     }
-
+    
     @objc private func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
