@@ -10,6 +10,7 @@ import UIKit
 protocol EditProfileControllerDelegate: AnyObject {
     func controller(_ controller: EditProfileController,
                     wantsToUpdate user: User)
+    func handleLogout()
 }
 
 final class EditProfileController: UITableViewController {
@@ -221,6 +222,27 @@ extension EditProfileController: EditProfileCellDelegate {
 // MARK: - EditProfileFooterDelegate
 extension EditProfileController: EditProfileFooterDelegate {
     func handleLogout() {
+        let alert = UIAlertController(
+            title: nil,
+            message: "Are you sure to log out?",
+            preferredStyle: .actionSheet
+        )
+        
+        let logoutAction = UIAlertAction(title: "Log Out",
+                                         style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            self.dismiss(animated: true) {
+                self.delegate?.handleLogout()
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .cancel)
+        
+        alert.addAction(logoutAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
         
     }
 }
