@@ -25,6 +25,7 @@ final class EditProfileController: UITableViewController {
             headerView.profileImageView.image = selectedImage 
         }
     }
+    private let footerView = EditProfileFooter()
     weak var delegate: EditProfileControllerDelegate?
     
     
@@ -72,12 +73,22 @@ final class EditProfileController: UITableViewController {
             width: view.frame.width,
             height: 180
         )
-        tableView.tableFooterView = UIView()
+        headerView.delegate = self
+        
+        footerView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width,
+            height: 100
+        )
+
+        tableView.tableFooterView = footerView
+        footerView.delegate = self
+        
         tableView.register(
             EditProfileCell.self,
             forCellReuseIdentifier: EditProfileCell.identifier
         )
-        headerView.delegate = self
     }
     
     private func configureImagePicker() {
@@ -204,5 +215,12 @@ extension EditProfileController: EditProfileCellDelegate {
         case .bio:
             user.bio = cell.bioTextView.text
         }
+    }
+}
+
+// MARK: - EditProfileFooterDelegate
+extension EditProfileController: EditProfileFooterDelegate {
+    func handleLogout() {
+        
     }
 }
