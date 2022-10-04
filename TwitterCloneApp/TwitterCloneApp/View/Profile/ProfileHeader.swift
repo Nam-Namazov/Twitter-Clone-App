@@ -91,6 +91,40 @@ final class ProfileHeader: UICollectionReusableView {
         filterBar.delegate = self
     }
     
+    private func configure() {
+        guard let user = user else { return }
+        let viewModel = ProfileHeaderViewModel(user: user)
+        
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+        editProfileFollowButton.setTitle(viewModel.actionButtonTitle,
+                                         for: .normal)
+        followingLabel.attributedText = viewModel.followingString
+        followersLabel.attributedText = viewModel.followersString
+        
+        fullNameLabel.text = user.fullName
+        usernameLabel.text = viewModel.userNameText
+    }
+    
+    private func addTargets() {
+        editProfileFollowButton.addTarget(self,
+                         action: #selector(handleEditProfileFollow),
+                         for: .touchUpInside
+        )
+        
+        backButton.addTarget(
+            self,
+            action: #selector(handleDismissal),
+            for: .touchUpInside)
+    }
+    
+    @objc private func handleDismissal() {
+        delegate?.handleDismissal()
+    }
+    
+    @objc private func handleEditProfileFollow() {
+        delegate?.handleEditProfileFollow(self)
+    }
+    
     private func setup() {
         containerView.backgroundColor = .twitterBlue
         addSubview(containerView)
@@ -153,47 +187,15 @@ final class ProfileHeader: UICollectionReusableView {
                          right: rightAnchor,
                          height: 50)
     }
-    
-    private func configure() {
-        guard let user = user else {
-            return
-        }
-        let viewModel = ProfileHeaderViewModel(user: user)
-        
-        profileImageView.sd_setImage(with: user.profileImageUrl)
-        editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
-        followingLabel.attributedText = viewModel.followingString
-        followersLabel.attributedText = viewModel.followersString
-        
-        fullNameLabel.text = user.fullName
-        usernameLabel.text = viewModel.userNameText
-    }
-    
-    private func addTargets() {
-        editProfileFollowButton.addTarget(self,
-                         action: #selector(handleEditProfileFollow),
-                         for: .touchUpInside
-        )
-        
-        backButton.addTarget(
-            self,
-            action: #selector(handleDismissal),
-            for: .touchUpInside)
-    }
-    
-    @objc private func handleDismissal() {
-        delegate?.handleDismissal()
-    }
-    
-    @objc private func handleEditProfileFollow() {
-        delegate?.handleEditProfileFollow(self)
-    }
 }
+
 // MARK: - ProfileFilterViewDelegate
 extension ProfileHeader: ProfileFilterViewDelegate {
     func filterView(_ view: ProfileFilterView,
                     didSelect index: Int) {
-        guard let filter = ProfileFilterOptions(rawValue: index) else { return }
+        guard let filter = ProfileFilterOptions(rawValue: index) else {
+            return
+        }
         delegate?.didSelect(filter: filter)
     }
 }

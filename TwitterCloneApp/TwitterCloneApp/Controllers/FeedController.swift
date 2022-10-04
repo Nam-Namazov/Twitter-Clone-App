@@ -9,8 +9,6 @@ import UIKit
 import SDWebImage
 
 final class FeedController: UICollectionViewController {
-    // MARK: - Properties
-
     var user: User? {
         didSet { configureLeftBarButton() }
     }
@@ -18,8 +16,6 @@ final class FeedController: UICollectionViewController {
     private var tweets = [Tweet]() {
         didSet { collectionView.reloadData() }
     }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +29,6 @@ final class FeedController: UICollectionViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
     }
-
-    // MARK: - API
 
     func fetchTweets() {
         collectionView.refreshControl?.beginRefreshing()
@@ -64,8 +58,10 @@ final class FeedController: UICollectionViewController {
             }
         }
     }
-
-    // MARK: - Helpers
+    
+    private func style() {
+        view.backgroundColor = .white
+    }
 
     private func configureUI() {
         let logoImageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
@@ -83,32 +79,35 @@ final class FeedController: UICollectionViewController {
     }
     
     private func configureCollectionView() {
-        collectionView.register(TweetCell.self,
-                                forCellWithReuseIdentifier: TweetCell.identifier)
+        collectionView.register(
+            TweetCell.self,
+            forCellWithReuseIdentifier: TweetCell.identifier
+        )
         collectionView.backgroundColor = .white
     }
     
     private func configureLeftBarButton() {
         guard let user = user else { return }
-
+        
         let profileImageView = UIImageView()
         profileImageView.setDimensions(width: 32, height: 32)
         profileImageView.layer.cornerRadius = 32 / 2
         profileImageView.layer.masksToBounds = true
         profileImageView.isUserInteractionEnabled = true
         
-        let tap = UITapGestureRecognizer(target: self,
-                                         action: #selector(handleProfileImageTap))
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleProfileImageTap)
+        )
         profileImageView.addGestureRecognizer(tap)
-
-        profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
+        
+        profileImageView.sd_setImage(with: user.profileImageUrl,
+                                     completed: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            customView: profileImageView
+        )
     }
 
-    private func style() {
-        view.backgroundColor = .white
-    }
-    
     @objc
     private func handleRefresh() {
         fetchTweets()
@@ -132,21 +131,21 @@ extension FeedController {
     
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TweetCell.identifier, for: indexPath) as? TweetCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: TweetCell.identifier,
+            for: indexPath) as? TweetCell else {
             return UICollectionViewCell()
         }
-        
         cell.delegate = self
-        
         cell.tweet = tweets[indexPath.row]
-        
         return cell 
     }
     
     override func collectionView(_ collectionView: UICollectionView,
                                  didSelectItemAt indexPath: IndexPath) {
         let controller = TweetController(tweet: tweets[indexPath.row])
-        navigationController?.pushViewController(controller, animated: true)
+        navigationController?.pushViewController(controller,
+                                                 animated: true)
     }
 }
 
@@ -166,7 +165,8 @@ extension FeedController: TweetCellDelegate {
     func handleFetchUser(withUsername username: String) {
         UserService.shared.fetchUser(withUsername: username) { user in
             let controller = ProfileController(user: user)
-            self.navigationController?.pushViewController(controller, animated: true)
+            self.navigationController?.pushViewController(controller,
+                                                          animated: true)
         }
     }
     
@@ -178,7 +178,6 @@ extension FeedController: TweetCellDelegate {
             let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
             cell.tweet?.likes = likes
             
-            // upload notification if tweet is being liked
             guard !tweet.didLike else { return }
             NotificationService.shared.uploadNotification(
                 toUser: tweet.user,

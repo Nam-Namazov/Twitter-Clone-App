@@ -57,7 +57,5 @@ final class ActionSheetCell: UITableViewCell {
         titleLabel.centerY(inView: self)
         titleLabel.anchor(left: optionImageView.rightAnchor,
                           paddingLeft: 12)
-        
     }
-    
 }

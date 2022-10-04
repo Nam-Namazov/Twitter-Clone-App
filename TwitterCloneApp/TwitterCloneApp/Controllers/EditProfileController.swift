@@ -14,9 +14,9 @@ protocol EditProfileControllerDelegate: AnyObject {
 }
 
 final class EditProfileController: UITableViewController {
-    private var user: User
-    private lazy var headerView = EditProfileHeader(user: user)
     private let imagePicker = UIImagePickerController()
+    private let footerView = EditProfileFooter()
+    private var user: User
     private var userInfoChanged = false
     private var imageChanged: Bool {
         return selectedImage != nil
@@ -26,9 +26,8 @@ final class EditProfileController: UITableViewController {
             headerView.profileImageView.image = selectedImage 
         }
     }
-    private let footerView = EditProfileFooter()
+    private lazy var headerView = EditProfileHeader(user: user)
     weak var delegate: EditProfileControllerDelegate?
-    
     
     init(user: User) {
         self.user = user
@@ -97,11 +96,13 @@ final class EditProfileController: UITableViewController {
         imagePicker.allowsEditing = true
     }
     
-    @objc private func handleCancel() {
+    @objc
+    private func handleCancel() {
         dismiss(animated: true)
     }
     
-    @objc private func handleDone() {
+    @objc
+    private func handleDone() {
         view.endEditing(true)
         guard imageChanged || userInfoChanged else { return }
         updateUserData()
@@ -243,6 +244,5 @@ extension EditProfileController: EditProfileFooterDelegate {
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
-        
     }
 }

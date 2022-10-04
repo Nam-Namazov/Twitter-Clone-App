@@ -38,22 +38,7 @@ struct NotificationViewModel {
     var followButtonText: String {
         return user.isFollowed ? "Following" : "Follow"
     }
-    
-    var notificationMessage: String {
-        switch type {
-        case .follow:
-            return " started following you"
-        case .like:
-            return " liked your tweet"
-        case .reply:
-            return " replied to your tweet"
-        case .retweet:
-            return " retweeted your tweet"
-        case .mention:
-            return " mentioned you in a tweet"
-        }
-    }
-    
+
     var notificationText: NSAttributedString? {
         guard let timestampString = timestampString else { return nil }
         let attributedtext = NSMutableAttributedString(
@@ -70,6 +55,21 @@ struct NotificationViewModel {
                          NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         )
         return attributedtext
+    }
+    
+    private var notificationMessage: String {
+        switch type {
+        case .follow:
+            return " started following you"
+        case .like:
+            return " liked your tweet"
+        case .reply:
+            return " replied to your tweet"
+        case .retweet:
+            return " retweeted your tweet"
+        case .mention:
+            return " mentioned you in a tweet"
+        }
     }
     
     init(notification: Notification) {

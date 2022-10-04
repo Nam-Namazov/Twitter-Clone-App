@@ -9,14 +9,11 @@ import Foundation
 import UIKit
 
 struct TweetViewModel {
-    
-    let tweet: Tweet
-    let user: User
     var profileImageUrl: URL? {
         return tweet.user.profileImageUrl
     }
     
-    var timestamp: String {
+    private var timestamp: String {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.second,
                                   .minute,
@@ -41,27 +38,31 @@ struct TweetViewModel {
     }
     
     var retweetsAttributedString: NSAttributedString? {
-        return attributedText(withValue: tweet.retweetCount, text: "Retweets")
+        return attributedText(withValue: tweet.retweetCount,
+                              text: "Retweets")
     }
     
     var likesAttributedString: NSAttributedString? {
-        return attributedText(withValue: tweet.likes, text: "Likes")
+        return attributedText(withValue: tweet.likes,
+                              text: "Likes")
     }
     
     var userInfoText: NSAttributedString {
         let title = NSMutableAttributedString(
             string: user.fullName,
-            attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
+            attributes: [.font: UIFont.boldSystemFont(ofSize: 14)]
+        )
         title.append(NSAttributedString(
             string: "@\(user.username)",
             attributes: [.font: UIFont.systemFont(ofSize: 14),
-                         .foregroundColor: UIColor.lightGray]))
+                         .foregroundColor: UIColor.lightGray])
+        )
         
         title.append(NSAttributedString(
             string: "・\(timestamp)",
             attributes: [.font: UIFont.systemFont(ofSize: 14),
-                         .foregroundColor: UIColor.lightGray]))
-        
+                         .foregroundColor: UIColor.lightGray])
+        )
         return title
     }
     
@@ -85,6 +86,9 @@ struct TweetViewModel {
         return "→ replying to @\(replyingToUsername)"
     }
     
+    private let tweet: Tweet
+    private let user: User
+
     init(tweet: Tweet) {
         self.tweet = tweet
         self.user = tweet.user
@@ -96,8 +100,12 @@ struct TweetViewModel {
         measurementLabel.numberOfLines = 0
         measurementLabel.lineBreakMode = .byWordWrapping
         measurementLabel.translatesAutoresizingMaskIntoConstraints = false
-        measurementLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
-        return measurementLabel.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        measurementLabel.widthAnchor.constraint(
+            equalToConstant: width
+        ).isActive = true
+        return measurementLabel.systemLayoutSizeFitting(
+            UIView.layoutFittingCompressedSize
+        )
     }
     
     fileprivate func attributedText(withValue value: Int,
@@ -109,8 +117,8 @@ struct TweetViewModel {
         attributedTitle.append(NSAttributedString(
             string: " \(text)",
             attributes: [.font: UIFont.systemFont(ofSize: 14),
-                         .foregroundColor: UIColor.lightGray]))
-        
+                         .foregroundColor: UIColor.lightGray])
+        )
         return attributedTitle
     }
 }

@@ -16,7 +16,6 @@ protocol TweetCellDelegate: AnyObject {
 }
 
 final class TweetCell: UICollectionViewCell {
-    // MARK: - Properties
     static let identifier = "cellid"
     
     var tweet: Tweet? {
@@ -32,7 +31,10 @@ final class TweetCell: UICollectionViewCell {
         imageView.setDimensions(width: 48, height: 48)
         imageView.layer.cornerRadius = 48 / 2
         imageView.backgroundColor = .twitterBlue
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleProfileImageTapped))
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleProfileImageTapped)
+        )
         imageView.addGestureRecognizer(tap)
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -97,24 +99,69 @@ final class TweetCell: UICollectionViewCell {
     
     private let infoLabel = UILabel()
     
-    // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         style()
-        configureUI()
+        layout()
         configureMentationHandler()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - Helpers
     
     private func style() {
         backgroundColor = .white
     }
     
-    private func configureUI() {
+    private func configure() {
+        guard let tweet = tweet else { return }
+        let viewModel = TweetViewModel(tweet: tweet)
+        captionLabel.text = tweet.caption
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        infoLabel.attributedText = viewModel.userInfoText
+        likeButton.tintColor = viewModel.likeButtonTintColor
+        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        replyLabel.isHidden = viewModel.shouldHideReplyLabel
+        replyLabel.text = viewModel.replyText
+    }
+    
+    private func configureMentationHandler() {
+        captionLabel.handleMentionTap { [weak self] username in
+            guard let self = self else { return }
+            self.delegate?.handleFetchUser(withUsername: username)
+        }
+    }
+    
+    private func createButton(withImageName imageName: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
+        button.setDimensions(width: 20, height: 20)
+        return button
+    }
+    
+    @objc private func handleCommentTapped() {
+        delegate?.handleReplyTapped(self)
+    }
+    
+    @objc private func handleRetweetTapped() {
+        
+    }
+    
+    @objc private func handleLikeTapped() {
+        delegate?.handleLikeTapped(self)
+    }
+    
+    @objc private func handleShareTapped() {
+        
+    }
+    
+    @objc private func handleProfileImageTapped() {
+        delegate?.handleProfileImageTapped(self)
+    }
+    
+    private func layout() {
         let captionStack = UIStackView(
             arrangedSubviews: [infoLabel, captionLabel]
         )
@@ -166,54 +213,5 @@ final class TweetCell: UICollectionViewCell {
                              bottom: bottomAnchor,
                              right: rightAnchor,
                              height: 1)
-    }
-    
-    private func configure() {
-        guard let tweet = tweet else { return }
-        let viewModel = TweetViewModel(tweet: tweet)
-        captionLabel.text = tweet.caption
-        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-        infoLabel.attributedText = viewModel.userInfoText
-        likeButton.tintColor = viewModel.likeButtonTintColor
-        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
-        replyLabel.isHidden = viewModel.shouldHideReplyLabel
-        replyLabel.text = viewModel.replyText
-    }
-    
-    private func configureMentationHandler() {
-        captionLabel.handleMentionTap { [weak self] username in
-            guard let self = self else { return }
-            self.delegate?.handleFetchUser(withUsername: username)
-        }
-    }
-    
-    private func createButton(withImageName imageName: String) -> UIButton {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: imageName), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        return button
-    }
-    
-    // MARK: - Selectors
-    
-    @objc private func handleCommentTapped() {
-        delegate?.handleReplyTapped(self)
-    }
-    
-    @objc private func handleRetweetTapped() {
-        
-    }
-    
-    @objc private func handleLikeTapped() {
-        delegate?.handleLikeTapped(self)
-    }
-    
-    @objc private func handleShareTapped() {
-        
-    }
-    
-    @objc private func handleProfileImageTapped() {
-        delegate?.handleProfileImageTapped(self)
     }
 }

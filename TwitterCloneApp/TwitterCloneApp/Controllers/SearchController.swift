@@ -65,6 +65,7 @@ final class SearchController: UITableViewController {
         definesPresentationContext = false
     }
 }
+
 // MARK: - UITableViewDataSource / UITableViewDelegate
 extension SearchController {
     override func tableView(_ tableView: UITableView,
@@ -74,7 +75,9 @@ extension SearchController {
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as? UserCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: UserCell.identifier,
+            for: indexPath) as? UserCell else {
             return UITableViewCell()
         }
         let user = inSearchMode ? filteredUsers[indexPath.row] : users[indexPath.row]

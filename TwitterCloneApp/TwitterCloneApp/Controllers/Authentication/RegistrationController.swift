@@ -9,8 +9,6 @@ import UIKit
 import Firebase
 
 final class RegistrationController: UIViewController {
-    // MARK: - Properties
-
     private let imagePicker = UIImagePickerController()
     private var profileImage: UIImage?
 
@@ -88,46 +86,45 @@ final class RegistrationController: UIViewController {
         return button
     }()
 
-    // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
         configureUI()
-        alreadyHaveAccountButtonAction()
-        plusPhotoButtonAction()
-        registrationButtonAction()
+        targets()
     }
 
-    // MARK: - Selectors
-
-    private func alreadyHaveAccountButtonAction() {
-        alreadyHaveAccountButton.addTarget(self,
-                                           action: #selector(handleShowLogin),
-                                           for: .touchUpInside)
+    private func targets() {
+        alreadyHaveAccountButton.addTarget(
+            self,
+            action: #selector(handleShowLogin),
+            for: .touchUpInside
+        )
+        
+        plusPhotoButton.addTarget(
+            self,
+            action: #selector(handleAddProfilePhoto),
+            for: .touchUpInside
+        )
+        
+        registrationButton.addTarget(
+            self,
+            action: #selector(handleRegistration),
+            for: .touchUpInside
+        )
     }
 
-    private func plusPhotoButtonAction() {
-        plusPhotoButton.addTarget(self,
-                                  action: #selector(handleAddProfilePhoto),
-                                  for: .touchUpInside)
-    }
-
-    private func registrationButtonAction() {
-        registrationButton.addTarget(self,
-                                     action: #selector(handleRegistration),
-                                     for: .touchUpInside)
-    }
-
-    @objc private func handleShowLogin() {
+    @objc
+    private func handleShowLogin() {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc private func handleAddProfilePhoto() {
+    @objc
+    private func handleAddProfilePhoto() {
         present(imagePicker, animated: true, completion: nil)
     }
 
-    @objc private func handleRegistration() {
+    @objc
+    private func handleRegistration() {
         guard let profileImage = profileImage else { 
             print("DEBUG: Please Select a profile image...")
             return
@@ -159,8 +156,6 @@ final class RegistrationController: UIViewController {
         }
     }
 
-    // MARK: - Helpers
-
     private func style() {
         view.backgroundColor = .twitterBlue
     }
@@ -170,8 +165,10 @@ final class RegistrationController: UIViewController {
         imagePicker.allowsEditing = true
         
         view.addSubview(plusPhotoButton)
-        plusPhotoButton.centerX(inView: view,
-                                topAnchor: view.safeAreaLayoutGuide.topAnchor)
+        plusPhotoButton.centerX(
+            inView: view,
+            topAnchor: view.safeAreaLayoutGuide.topAnchor
+        )
         plusPhotoButton.setDimensions(width: 128,
                                       height: 128)
         
@@ -185,26 +182,29 @@ final class RegistrationController: UIViewController {
         stack.distribution = .fillEqually
         
         view.addSubview(stack)
-        stack.anchor(top: plusPhotoButton.bottomAnchor,
-                     left: view.leftAnchor,
-                     right: view.rightAnchor,
-                     paddingTop: 32,
-                     paddingLeft: 32,
-                     paddingRight: 32)
+        stack.anchor(
+            top: plusPhotoButton.bottomAnchor,
+            left: view.leftAnchor,
+            right: view.rightAnchor,
+            paddingTop: 32,
+            paddingLeft: 32,
+            paddingRight: 32
+        )
 
         view.addSubview(alreadyHaveAccountButton)
-        alreadyHaveAccountButton.anchor(left: view.leftAnchor,
-                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                     right: view.rightAnchor,
-                                     paddingLeft: 40,
-                                     paddingRight: 40)
+        alreadyHaveAccountButton.anchor(
+            left: view.leftAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            right: view.rightAnchor,
+            paddingLeft: 40,
+            paddingRight: 40
+        )
     }
 }
-// MARK: - UIImagePickerControllerDelegate
 
+// MARK: - UIImagePickerControllerDelegate
 extension RegistrationController: UIImagePickerControllerDelegate,
                                   UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileImage = info[.editedImage] as? UIImage else { return }
@@ -217,8 +217,10 @@ extension RegistrationController: UIImagePickerControllerDelegate,
         plusPhotoButton.imageView?.contentMode = .scaleAspectFill
         plusPhotoButton.imageView?.clipsToBounds = true
         
-        self.plusPhotoButton.setImage(profileImage.withRenderingMode(.alwaysOriginal), for: .normal)
-        
+        self.plusPhotoButton.setImage(
+            profileImage.withRenderingMode(.alwaysOriginal),
+            for: .normal
+        )
         dismiss(animated: true, completion: nil)
     }
 }

@@ -38,6 +38,11 @@ final class EditProfileFooter: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc
+    private func handleLogout() {
+        delegate?.handleLogout()
+    }
+    
     private func layout() {
         addSubview(logoutButton)
         logoutButton.anchor(
@@ -50,10 +55,5 @@ final class EditProfileFooter: UIView {
             equalToConstant: 50
         ).isActive = true
         logoutButton.centerY(inView: self)
-    }
-    
-    @objc
-    private func handleLogout() {
-        delegate?.handleLogout()
     }
 }

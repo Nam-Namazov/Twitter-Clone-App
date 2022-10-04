@@ -26,7 +26,6 @@ struct TweetService {
             case .tweet:
                 let ref = REF_TWEETS.childByAutoId()
                 ref.updateChildValues(values) { err, ref in
-                    // update user-tweet structure after tweet upload completes
                     guard let tweetID = ref.key else { return }
                     REF_USER_TWEETS.child(uid)
                         .updateChildValues(
@@ -175,14 +174,12 @@ struct TweetService {
         REF_TWEETS.child(tweet.tweetID).child("likes").setValue(likes)
         
         if tweet.didLike {
-            // unlike tweet
             REF_USER_LIKES.child(uid).child(tweet.tweetID).removeValue() { error, reference in
                 REF_TWEET_LIKES.child(tweet.tweetID).removeValue(
                     completionBlock: completion
                 )
             }
         } else {
-            // like tweet
             REF_USER_LIKES.child(uid).updateChildValues([tweet.tweetID: 1]) { error, reference in
                 REF_TWEET_LIKES.child(tweet.tweetID).updateChildValues([uid: 1], withCompletionBlock: completion)
             }

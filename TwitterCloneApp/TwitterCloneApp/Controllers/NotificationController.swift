@@ -8,15 +8,11 @@
 import UIKit
 
 final class NotificationController: UITableViewController {
-    // MARK: - Properties
-    
     private var notifications = [Notification]() {
         didSet {
             tableView.reloadData()
         }
     }
-    
-    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +27,10 @@ final class NotificationController: UITableViewController {
         navigationController?.navigationBar.barStyle = .default
     }
     
-    // MARK: - API
+    private func style() {
+        view.backgroundColor = .white
+        navigationItem.title = "Notifications"
+    }
     
     private func fetchNotifications() {
         refreshControl?.beginRefreshing()
@@ -60,8 +59,6 @@ final class NotificationController: UITableViewController {
         }
     }
     
-    // MARK: - Helpers
-    
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -84,11 +81,6 @@ final class NotificationController: UITableViewController {
     @objc
     private func handleRefresh() {
         fetchNotifications()
-    }
-    
-    private func style() {
-        view.backgroundColor = .white
-        navigationItem.title = "Notifications"
     }
 }
 
