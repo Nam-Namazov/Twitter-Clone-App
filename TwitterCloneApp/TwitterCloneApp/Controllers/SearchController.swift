@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ExploreController: UITableViewController {
+final class SearchController: UITableViewController {
     private var users = [User]() {
         didSet {
             tableView.reloadData()
@@ -66,7 +66,7 @@ final class ExploreController: UITableViewController {
     }
 }
 // MARK: - UITableViewDataSource / UITableViewDelegate
-extension ExploreController {
+extension SearchController {
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return inSearchMode ? filteredUsers.count : users.count
@@ -93,7 +93,7 @@ extension ExploreController {
 }
 
 // MARK: - UISearchResultsUpdating
-extension ExploreController: UISearchResultsUpdating {
+extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text?.lowercased() else {
             return

@@ -20,6 +20,7 @@ struct Notification {
     
     init(user: User, dictionary: [String: AnyObject]) {
         self.user = user
+        
         if let tweetID = dictionary["tweetID"] as? String {
             self.tweetID = tweetID
         }
