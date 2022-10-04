@@ -25,7 +25,6 @@ final class TweetHeader: UICollectionReusableView {
     static let identifier = "TweetHeader"
     static let shared = TweetHeader()
     
-    
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -191,20 +190,20 @@ final class TweetHeader: UICollectionReusableView {
             arrangedSubviews: [profileImageView, labelStack]
         )
         imageCaptionStack.spacing = 12
-        
+
         let stack = UIStackView(
             arrangedSubviews: [replyLabel, imageCaptionStack]
         )
         stack.axis = .vertical
         stack.spacing = 8
         stack.distribution = .fillProportionally
-        
+
         addSubview(stack)
         stack.anchor(top: topAnchor,
                      left: leftAnchor,
                      paddingTop: 16,
                      paddingLeft: 16)
-        
+
         addSubview(captionLabel)
         captionLabel.anchor(top: stack.bottomAnchor,
                             left: leftAnchor,
@@ -212,25 +211,25 @@ final class TweetHeader: UICollectionReusableView {
                             paddingTop: 12,
                             paddingLeft: 16,
                             paddingRight: 16)
-        
+
         addSubview(dateLabel)
         dateLabel.anchor(top: captionLabel.bottomAnchor,
                          left: leftAnchor,
                          paddingTop: 20,
                          paddingLeft: 16)
-        
+
         addSubview(optionsButton)
         optionsButton.centerY(inView: stack)
         optionsButton.anchor(right: rightAnchor,
                              paddingRight: 8)
-        
+
         addSubview(statsView)
         statsView.anchor(top: dateLabel.bottomAnchor,
                          left: leftAnchor,
                          right: rightAnchor,
                          paddingTop: 12,
                          height: 40)
-        
+
         let actionStack = UIStackView(
             arrangedSubviews: [commentButton,
                                retweetButton,

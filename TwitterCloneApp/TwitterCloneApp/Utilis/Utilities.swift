@@ -59,7 +59,32 @@ class Utilities {
         attributedTitle.append(NSMutableAttributedString(string: secondPart, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white]))
         
         button.setAttributedTitle(attributedTitle, for: .normal)
-
         return button
+    }
+    
+    func standardButton(title: String,
+                        color: UIColor,
+                        layerBorderColor: CGColor?,
+                        layerCornerRadius: CGFloat,
+                        layerBorderWidth: CGFloat,
+                        font: UIFont) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(color, for: .normal)
+        button.layer.borderColor = layerBorderColor
+        button.layer.cornerRadius = layerCornerRadius
+        button.layer.borderWidth = layerBorderWidth
+        button.titleLabel?.font = font
+        return button
+    }
+    
+    func standardLabel(textColor: UIColor?,
+                       numberOfLines: Int,
+                       font: UIFont) -> UILabel {
+        let label = UILabel()
+        label.textColor = textColor
+        label.numberOfLines = numberOfLines
+        label.font = font
+        return label
     }
 }

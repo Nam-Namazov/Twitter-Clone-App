@@ -9,9 +9,7 @@ import UIKit
 import Firebase
 
 final class MainTabBarController: UITabBarController {
-    // MARK: - Properties
-
-    var user: User? {
+    private var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController,
                   let feed = nav.viewControllers.first as? FeedController else { return }
@@ -19,7 +17,7 @@ final class MainTabBarController: UITabBarController {
         }
     }
     
-    let actionButton: UIButton = {
+    private let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
         button.backgroundColor = .twitterBlue
@@ -39,7 +37,7 @@ final class MainTabBarController: UITabBarController {
     
     // MARK: - API
     
-    func fetchUser() {
+    private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserService.shared.fetchUser(uid: uid) { user in
             self.user = user
@@ -90,27 +88,27 @@ final class MainTabBarController: UITabBarController {
                             width: 56,
                             height: 56)
     }
-
+    
     private func configureVC() {
         let feedVC = createNavController(
-            viewController: FeedController(collectionViewLayout: UICollectionViewFlowLayout()),
+            viewController: FeedController(
+                collectionViewLayout: UICollectionViewFlowLayout()
+            ),
             itemImage: "home_unselected"
         )
-
-        let exploreVC = createNavController(viewController: ExploreController(),
-                                            itemImage: "search_unselected")
-
-        let notificationVC = createNavController(viewController: NotificationController(),
-                                                 itemImage: "like_unselected")
-
-        let conversationVC = createNavController(viewController: ConversationController(),
-                                                 itemImage: "ic_mail_outline_white_2x-1")
-
+        
+        let exploreVC = createNavController(
+            viewController: SearchController(),
+            itemImage: "search_unselected")
+        
+        let notificationVC = createNavController(
+            viewController: NotificationController(),
+            itemImage: "like_unselected")
+        
         viewControllers = [feedVC,
                            exploreVC,
-                           notificationVC,
-                           conversationVC]
-}
+                           notificationVC]
+    }
 
     private func createNavController(viewController: UIViewController,
                                      itemImage: String) -> UINavigationController {

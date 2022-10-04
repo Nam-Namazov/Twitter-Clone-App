@@ -25,39 +25,25 @@ final class ProfileHeader: UICollectionReusableView {
     weak var delegate: ProfileHeaderDelegate?
 
     private let filterBar = ProfileFilterView()
-    
-    private lazy var containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .twitterBlue
-        return view
-    }()
-    
+    private lazy var containerView = UIView()
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         if let image = UIImage(named: "baseline_arrow_back_white_24dp") {
             button.setImage(image.withRenderingMode(.alwaysOriginal),
                             for: .normal)
         }
-        button.addTarget(self,
-                         action: #selector(handleDismissal),
-                         for: .touchUpInside)
         return button
     }()
     
-    private lazy var editProfileFollowButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Loading", for: .normal)
-        button.layer.borderColor = UIColor.twitterBlue.cgColor
-        button.layer.borderWidth = 1.25
-        button.layer.cornerRadius = 36 / 2
-        button.setTitleColor(UIColor.twitterBlue, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.addTarget(self,
-                         action: #selector(handleEditProfileFollow),
-                         for: .touchUpInside)
-        return button
-    }()
-    
+    private lazy var editProfileFollowButton = Utilities().standardButton(
+        title: "Loading",
+        color: .twitterBlue,
+        layerBorderColor: UIColor.twitterBlue.cgColor,
+        layerCornerRadius: 36 / 2,
+        layerBorderWidth: 1.25,
+        font: UIFont.boldSystemFont(ofSize: 14)
+    )
+
     private let profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFit
@@ -69,47 +55,32 @@ final class ProfileHeader: UICollectionReusableView {
         return profileImageView
     }()
     
-    private let fullNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        return label
-    }()
+    private let fullNameLabel = Utilities().standardLabel(
+        textColor: .black,
+        numberOfLines: 1,
+        font: UIFont.boldSystemFont(ofSize: 20)
+    )
     
-    private let usernameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .lightGray
-        return label
-    }()
-    
-    private let bioLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 3
-        label.textColor = .black
-        return label
-    }()
+    private let usernameLabel = Utilities().standardLabel(
+        textColor: .lightGray,
+        numberOfLines: 1,
+        font: UIFont.systemFont(ofSize: 16)
+    )
 
-    private lazy var followingLabel: UILabel = {
-        let label = UILabel()
-        let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTapped))
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(followTap)
-        return label
-    }()
+    private let bioLabel = Utilities().standardLabel(
+        textColor: .black,
+        numberOfLines: 3,
+        font: UIFont.systemFont(ofSize: 16)
+    )
     
-    private lazy var followersLabel: UILabel = {
-        let label = UILabel()
-        let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(followTap)
-        return label
-    }()
+    private lazy var followingLabel = UILabel()
+    private lazy var followersLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
         configureFilterBarDelegate()
+        addTargets()
     }
     
     required init?(coder: NSCoder) {
@@ -121,6 +92,7 @@ final class ProfileHeader: UICollectionReusableView {
     }
     
     private func setup() {
+        containerView.backgroundColor = .twitterBlue
         addSubview(containerView)
         containerView.addSubview(backButton)
         addSubview(profileImageView)
@@ -197,20 +169,24 @@ final class ProfileHeader: UICollectionReusableView {
         usernameLabel.text = viewModel.userNameText
     }
     
+    private func addTargets() {
+        editProfileFollowButton.addTarget(self,
+                         action: #selector(handleEditProfileFollow),
+                         for: .touchUpInside
+        )
+        
+        backButton.addTarget(
+            self,
+            action: #selector(handleDismissal),
+            for: .touchUpInside)
+    }
+    
     @objc private func handleDismissal() {
         delegate?.handleDismissal()
     }
     
     @objc private func handleEditProfileFollow() {
         delegate?.handleEditProfileFollow(self)
-    }
-    
-    @objc private func handleFollowersTapped() {
-        print("123")
-    }
-    
-    @objc private func handleFollowingTapped() {
-        print("456")
     }
 }
 // MARK: - ProfileFilterViewDelegate
