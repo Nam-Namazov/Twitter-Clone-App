@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 final class InputTextView: UITextView {
-    // MARK: - Properties
-
     let placeholderLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
@@ -19,35 +17,41 @@ final class InputTextView: UITextView {
         return label
     }()
 
-    // MARK: - Lifecycle
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-
-        addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: topAnchor,
-                                left: leftAnchor,
-                                paddingTop: 8,
-                                paddingLeft: 4)
-
-        backgroundColor = .white
-        font = UIFont.systemFont(ofSize: 16)
-        isScrollEnabled = false
-//        heightAnchor.constraint(equalToConstant: 100).isActive = true
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextChange), name: UITextView.textDidChangeNotification, object: nil)
+        layout()
+        configure()
+        observer()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Selectors
+    
+    private func configure() {
+        backgroundColor = .white
+        font = UIFont.systemFont(ofSize: 16)
+        isScrollEnabled = false
+    }
+    
+    private func observer() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleTextChange),
+            name: UITextView.textDidChangeNotification,
+            object: nil
+        )
+    }
 
     @objc private func handleTextChange() {
-        if text.isEmpty {
-            placeholderLabel.isHidden = false
-        } else {
-            placeholderLabel.isHidden = true
-        }
+        text.isEmpty ? (placeholderLabel.isHidden = false) : (placeholderLabel.isHidden = true)
+    }
+    
+    private func layout() {
+        addSubview(placeholderLabel)
+        placeholderLabel.anchor(top: topAnchor,
+                                left: leftAnchor,
+                                paddingTop: 8,
+                                paddingLeft: 4)
     }
 }

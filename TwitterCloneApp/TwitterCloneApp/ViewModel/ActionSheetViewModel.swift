@@ -8,9 +8,8 @@
 import UIKit
 
 struct ActionSheetViewModel {
-    var options: [ActionSheetOptions] {
+   var options: [ActionSheetOptions] {
         var results = [ActionSheetOptions]()
-        
         if user.isCurrentUser {
             results.append(.delete)
         } else {
@@ -18,13 +17,11 @@ struct ActionSheetViewModel {
             results.append(followOption)
         }
         results.append(.report)
-        
         return results
     }
     
     private let user: User
-
-
+    
     init(user: User) {
         self.user = user
     }

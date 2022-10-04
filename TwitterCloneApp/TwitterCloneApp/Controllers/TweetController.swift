@@ -8,7 +8,6 @@
 import UIKit
 
 final class TweetController: UICollectionViewController {
-    
     private let tweet: Tweet
     private var actionSheetLauncher: ActionSheetLauncher!
     private var replies = [Tweet]() {
@@ -62,16 +61,19 @@ final class TweetController: UICollectionViewController {
         actionSheetLauncher.delegate = self
         actionSheetLauncher.show()
     }
-
 }
 
 // MARK: - UICollectionViewDataSource
 extension TweetController {
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
         return replies.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TweetCell.identifier,
             for: indexPath) as? TweetCell else {
@@ -85,8 +87,16 @@ extension TweetController {
 
 // MARK: - UICollectionViewDelegate
 extension TweetController {
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TweetHeader.identifier, for: indexPath) as? TweetHeader else {
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: TweetHeader.identifier,
+            for: indexPath
+        ) as? TweetHeader else {
             return UICollectionReusableView()
         }
         header.tweet = tweet
@@ -97,7 +107,11 @@ extension TweetController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension TweetController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
         let viewModel = TweetViewModel(tweet: tweet)
         let captionHeight = viewModel.size(forWidth: view.frame.width).height
         return CGSize(width: view.frame.width, height: captionHeight + 265)

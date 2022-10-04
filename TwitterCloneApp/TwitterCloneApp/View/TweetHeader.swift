@@ -97,9 +97,9 @@ final class TweetHeader: UICollectionReusableView {
     private let retweetsLabel = UILabel()
     private let likesLabel = UILabel()
     
-    lazy var statsView: UIView = {
+    private lazy var statsView: UIView = {
         let view = UIView()
-        
+
         let divider1 = UIView()
         divider1.backgroundColor = .systemGroupedBackground
         view.addSubview(divider1)
@@ -107,7 +107,7 @@ final class TweetHeader: UICollectionReusableView {
                         left: view.leftAnchor,
                         right: view.rightAnchor,
                         paddingLeft: 8, height: 1.0)
-        
+
         let stack = UIStackView(
             arrangedSubviews: [retweetsLabel, likesLabel]
         )
@@ -117,7 +117,7 @@ final class TweetHeader: UICollectionReusableView {
         stack.centerY(inView: view)
         stack.anchor(left: view.leftAnchor,
                      paddingLeft: 16)
-        
+
         let divider2 = UIView()
         divider2.backgroundColor = .systemGroupedBackground
         view.addSubview(divider2)
@@ -169,7 +169,6 @@ final class TweetHeader: UICollectionReusableView {
         return button
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
@@ -178,6 +177,69 @@ final class TweetHeader: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc
+    private func handleProfileImageTapped() {
+        
+    }
+    
+    @objc
+    private func showActionSheet() {
+        delegate?.showActionSheet()
+    }
+    
+    @objc
+    private func handleCommentTapped() {
+        
+    }
+    
+    @objc
+    private func handleRetweetTapped() {
+        
+    }
+    
+    @objc
+    private func handleLikeTapped() {
+        
+    }
+    
+    @objc
+    private func handleShareTapped() {
+        
+    }
+    
+    private func createButton(
+        withImageName imageName: String
+    ) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
+        button.setDimensions(width: 20, height: 20)
+        return button
+    }
+    
+    private func configure() {
+        guard let tweet = tweet else { return }
+        
+        let viewModel = TweetViewModel(tweet: tweet)
+        captionLabel.text = tweet.caption
+        fullNameLabel.text = tweet.user.fullName
+        usernameLabel.text = viewModel.usernameText
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        dateLabel.text = viewModel.headerTimestamp
+        retweetsLabel.attributedText = viewModel.retweetsAttributedString
+        likesLabel.attributedText = viewModel.likesAttributedString
+        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        likeButton.tintColor = viewModel.likeButtonTintColor
+        replyLabel.isHidden = viewModel.shouldHideReplyLabel
+        replyLabel.text = viewModel.replyText
+    }
+    
+    private func configureMentionHandler() {
+        captionLabel.handleMentionTap { username in
+            self.delegate?.handleFetchUser(withUsername: username)
+        }
     }
     
     private func layout() {
@@ -241,66 +303,5 @@ final class TweetHeader: UICollectionReusableView {
         actionStack.centerX(inView: self)
         actionStack.anchor(top: statsView.bottomAnchor,
                            paddingTop: 16)
-    }
-    
-    @objc
-    private func handleProfileImageTapped() {
-        
-    }
-    
-    @objc
-    private func showActionSheet() {
-        delegate?.showActionSheet()
-    }
-    
-    @objc
-    private func handleCommentTapped() {
-        
-    }
-    
-    @objc
-    private func handleRetweetTapped() {
-        
-    }
-    
-    @objc
-    private func handleLikeTapped() {
-        
-    }
-    
-    @objc
-    private func handleShareTapped() {
-        
-    }
-    
-    private func createButton(withImageName imageName: String) -> UIButton {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: imageName), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        return button
-    }
-    
-    private func configure() {
-        guard let tweet = tweet else { return }
-        
-        let viewModel = TweetViewModel(tweet: tweet)
-        captionLabel.text = tweet.caption
-        fullNameLabel.text = tweet.user.fullName
-        usernameLabel.text = viewModel.usernameText
-        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-        dateLabel.text = viewModel.headerTimestamp
-        retweetsLabel.attributedText = viewModel.retweetsAttributedString
-        likesLabel.attributedText = viewModel.likesAttributedString
-        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
-        likeButton.tintColor = viewModel.likeButtonTintColor
-        replyLabel.isHidden = viewModel.shouldHideReplyLabel
-        replyLabel.text = viewModel.replyText
-    }
-    
-    private func configureMentionHandler() {
-        captionLabel.handleMentionTap { username in
-            self.delegate?.handleFetchUser(withUsername: username)
-        }
     }
 }

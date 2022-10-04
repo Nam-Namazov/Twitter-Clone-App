@@ -9,8 +9,6 @@ import UIKit
 import ActiveLabel
 
 final class UploadTweetController: UIViewController {
-    // MARK: - Properties
-    
     private let user: User
     private let captionTextView = InputTextView()
     private let config: UploadTweetConfiguration
@@ -45,8 +43,6 @@ final class UploadTweetController: UIViewController {
         return label
     }()
     
-    // MARK: - Lifecycle
-    
     init (user: User, config: UploadTweetConfiguration) {
         self.user = user
         self.config = config
@@ -60,7 +56,7 @@ final class UploadTweetController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
-        configureUI()
+        layout()
         setupNavBar()
         tweetUploadButtonTapped()
         configureMention()
@@ -112,7 +108,42 @@ final class UploadTweetController: UIViewController {
         }
     }
     
-    private func configureUI() {
+    private func tweetUploadButtonTapped() {
+        uploadTweetButton.addTarget(self,
+                                    action: #selector(handleUploadTweet),
+                                    for: .touchUpInside)
+    }
+    
+    @objc
+    private func handleUploadTweet() {
+        guard let caption = captionTextView.text else { return }
+        TweetService.shared.uploadTweet(
+            caption: caption,
+            type: config
+        ) { error, ref in
+            if let error = error {
+                print("DEBUG: Failed to upload tweet with error \(error.localizedDescription)")
+                return
+            }
+            
+            if case .reply(let tweet) = self.config {
+                NotificationService.shared.uploadNotification(
+                    toUser: tweet.user,
+                    type: .reply,
+                    tweetID: tweet.tweetID
+                )
+            }
+            self.uploadMentionNotification(forCaption: caption, tweetID: ref.key)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @objc
+    private func handleCancel() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func layout() {
         let imageCaptionStackView = UIStackView(
             arrangedSubviews: [profileImageView,
                                captionTextView]
@@ -147,40 +178,4 @@ final class UploadTweetController: UIViewController {
         guard let replyText = viewModel.replyText else { return }
         replyLabel.text = replyText
     }
-    
-    // MARK: - Selectors
-    
-    private func tweetUploadButtonTapped() {
-        uploadTweetButton.addTarget(self,
-                                    action: #selector(handleUploadTweet),
-                                    for: .touchUpInside)
-    }
-    
-    @objc private func handleUploadTweet() {
-        guard let caption = captionTextView.text else { return }
-        TweetService.shared.uploadTweet(
-            caption: caption,
-            type: config
-        ) { error, ref in
-            if let error = error {
-                print("DEBUG: Failed to upload tweet with error \(error.localizedDescription)")
-                return
-            }
-            
-            if case .reply(let tweet) = self.config {
-                NotificationService.shared.uploadNotification(
-                    toUser: tweet.user,
-                    type: .reply,
-                    tweetID: tweet.tweetID
-                )
-            }
-            self.uploadMentionNotification(forCaption: caption, tweetID: ref.key)
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    @objc private func handleCancel() {
-        dismiss(animated: true, completion: nil)
-    }
 }
-

@@ -40,16 +40,26 @@ final class UserCell: UITableViewCell {
         return label
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: style,
+                   reuseIdentifier: reuseIdentifier)
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private func configure() {
+        guard let user = user else { return }
+        
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+        usernameLabel.text = user.username
+        fullnameLabel.text = user.fullName
+    }
     
-    private func setup() {
+    private func layout() {
         addSubview(profileImageView)
         profileImageView.centerY(inView: self,
                                  leftAnchor: leftAnchor,
@@ -63,14 +73,5 @@ final class UserCell: UITableViewCell {
         stackView.centerY(inView: profileImageView,
                           leftAnchor: profileImageView.rightAnchor,
                           paddingLeft: 12)
-    }
-    
-    private func configure() {
-        guard let user = user else { return }
-        
-        profileImageView.sd_setImage(with: user.profileImageUrl)
-        
-        usernameLabel.text = user.username
-        fullnameLabel.text = user.fullName
     }
 }

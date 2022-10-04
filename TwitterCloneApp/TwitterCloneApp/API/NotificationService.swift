@@ -12,7 +12,9 @@ final class NotificationService {
     
     private init() {}
     
-    func uploadNotification(toUser user: User, type: NotificationType, tweetID: String? = nil) {
+    func uploadNotification(toUser user: User,
+                            type: NotificationType,
+                            tweetID: String? = nil) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         var values: [String: Any] = ["timestamp": Int(NSDate().timeIntervalSince1970),
@@ -25,8 +27,22 @@ final class NotificationService {
         REF_NOTIFICATIONS.child(user.uid).childByAutoId().updateChildValues(values)
     }
     
-    fileprivate func getNotifications(uid: String,
-                                      completion: @escaping ([Notification]) -> Void) {
+    func fetchNotifications(completion: @escaping ([Notification]) -> Void) {
+        let notifications = [Notification]()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        REF_NOTIFICATIONS.child(uid).observeSingleEvent(of: .value) { snapshot in
+            !snapshot.exists() ? completion(notifications) : self.getNotifications(
+                uid: uid,
+                completion: completion
+            )
+        }
+    }
+    
+    fileprivate func getNotifications(
+        uid: String,
+        completion: @escaping ([Notification]
+        ) -> Void) {
         var notifications = [Notification]()
         
         REF_NOTIFICATIONS.child(uid).observe(.childAdded) { snapshot in
@@ -38,18 +54,6 @@ final class NotificationService {
                 notifications.append(notification)
                 completion(notifications)
             }
-        }
-    }
-    
-    func fetchNotifications(completion: @escaping ([Notification]) -> Void) {
-        let notifications = [Notification]()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        REF_NOTIFICATIONS.child(uid).observeSingleEvent(of: .value) { snapshot in
-            !snapshot.exists() ? completion(notifications) : self.getNotifications(
-                uid: uid,
-                completion: completion
-            )
         }
     }
 }

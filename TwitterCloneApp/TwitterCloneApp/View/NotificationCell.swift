@@ -30,8 +30,10 @@ final class NotificationCell: UITableViewCell {
         imageView.setDimensions(width: 48, height: 48)
         imageView.layer.cornerRadius = 48 / 2
         imageView.backgroundColor = .twitterBlue
-        let tap = UITapGestureRecognizer(target: self,
-                                         action: #selector(handleProfileImageTapped))
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleProfileImageTapped)
+        )
         imageView.addGestureRecognizer(tap)
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -45,7 +47,11 @@ final class NotificationCell: UITableViewCell {
         button.layer.borderColor = UIColor.twitterBlue.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 32 / 2
-        button.addTarget(self, action: #selector(handleFollowTapped), for: .touchUpInside)
+        button.addTarget(
+            self,
+            action: #selector(handleFollowTapped),
+            for: .touchUpInside
+        )
         return button
     }()
     
@@ -78,6 +84,16 @@ final class NotificationCell: UITableViewCell {
         followButton.setTitle(viewModel.followButtonText, for: .normal)
     }
     
+    @objc
+    private func handleProfileImageTapped() {
+        delegate?.didTapProfileImage(self)
+    }
+    
+    @objc
+    private func handleFollowTapped() {
+        delegate?.didTapFollow(self)
+    }
+    
     private func layout() {
         let stack = UIStackView(
             arrangedSubviews: [profileImageView,
@@ -95,15 +111,5 @@ final class NotificationCell: UITableViewCell {
         followButton.centerY(inView: self)
         followButton.setDimensions(width: 92, height: 32)
         followButton.anchor(right: rightAnchor, paddingRight: 12)
-    }
-    
-    @objc
-    private func handleProfileImageTapped() {
-        delegate?.didTapProfileImage(self)
-    }
-    
-    @objc
-    private func handleFollowTapped() {
-        delegate?.didTapFollow(self)
     }
 }
