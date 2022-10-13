@@ -8,8 +8,8 @@ This application implement:
 - Search user
 - Notifications
 
-![merge12](https://user-images.githubusercontent.com/84244347/193872319-cf384719-430b-4435-9bb8-e6000331626a.jpg)
-![merge13](https://user-images.githubusercontent.com/84244347/193872542-cff1d867-5b7e-47a1-8dce-5024cd814342.jpg)
+![merge](https://github.com/Nam-Namazov/media1/blob/main/tweeterMerged1.png)
+![merge13](https://github.com/Nam-Namazov/media1/blob/main/MERGET.png)
 
 ![Simulator Screen Recording - iPhone 13 - 2022-10-04 at 19 52 29](https://user-images.githubusercontent.com/84244347/193881486-8de55534-c400-4ea1-895a-42ff4ed786b4.gif)
 ![Simulator Screen Recording - iPhone 13 - 2022-10-04 at 19 54 59](https://user-images.githubusercontent.com/84244347/193881499-b48ae3e5-44ae-4e46-a347-88893e438b1e.gif)
